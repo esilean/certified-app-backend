@@ -20,15 +20,14 @@ module.exports = {
 
         const question = await QuestionService.update(id, request.body)
 
-
         return response.json(question)
 
     },
     async destroy(request, response) {
         const { id } = request.params
 
-        await QuestionService.destroy(id)
+        const resp = await QuestionService.destroy(id)
 
-        return response.json()
+        return response.status(200).json(resp)
     },
 }

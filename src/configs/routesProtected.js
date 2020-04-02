@@ -74,7 +74,7 @@ module.exports = function (server) {
         celebrate({
             [Segments.PARAMS]: Joi.object().keys({
                 customer_id: Joi.number().required().min(1),
-                stage_id: Joi.number().required().min(1),
+                stage_id: Joi.number().required().min(1).max(4),
             }),
         }),
         CustomerAttemptController.indexStage)
@@ -82,11 +82,11 @@ module.exports = function (server) {
         celebrate({
             [Segments.PARAMS]: Joi.object().keys({
                 customer_id: Joi.number().required().min(1),
-                stage_id: Joi.number().required().min(1),
+                stage_id: Joi.number().required().min(1).max(4),
             }),
-            [Segments.BODY]: Joi.object({
+            [Segments.BODY]: Joi.object().keys({
                 date_ini: Joi.date().required(),
-            }).unknown()
+            })
         }),
         CustomerAttemptController.store)
     routes.put('/customerattempt/:id',
@@ -94,10 +94,10 @@ module.exports = function (server) {
             [Segments.PARAMS]: Joi.object().keys({
                 id: Joi.number().required().min(1),
             }),
-            [Segments.BODY]: Joi.object({
+            [Segments.BODY]: Joi.object().keys({
                 date_end: Joi.date().required(),
                 approved: Joi.number().min(0).max(1),
-            }).unknown()
+            })
         }),
         CustomerAttemptController.update)
     routes.delete('/customerattempt/:id',
@@ -139,9 +139,10 @@ module.exports = function (server) {
             }).unknown()
         }),
         AnswerController.store)
-    routes.put('/answers/:id',
+    routes.put('/answers/:question_id/:id',
         celebrate({
             [Segments.PARAMS]: Joi.object().keys({
+                question_id: Joi.number().required().min(1),
                 id: Joi.number().required().min(1),
             }),
             [Segments.BODY]: Joi.object({
@@ -199,12 +200,11 @@ module.exports = function (server) {
     routes.get('/customers', CustomerController.index)
     routes.post('/customers',
         celebrate({
-            [Segments.BODY]: Joi.object({
+            [Segments.BODY]: Joi.object().keys({
                 name: Joi.string().required().max(250),
                 email: Joi.string().required().max(100),
-                cpf: Joi.string().required().max(14),
                 active: Joi.number().min(0).max(1),
-            }).unknown()
+            })
         }),
         CustomerController.store)
     routes.put('/customers/:id',
@@ -212,12 +212,11 @@ module.exports = function (server) {
             [Segments.PARAMS]: Joi.object().keys({
                 id: Joi.number().required().min(1),
             }),
-            [Segments.BODY]: Joi.object({
+            [Segments.BODY]: Joi.object().keys({
                 name: Joi.string().required().max(250),
                 email: Joi.string().required().max(100),
-                cpf: Joi.string().required().max(14),
                 active: Joi.number().min(0).max(1),
-            }).unknown()
+            })
         }),
         CustomerController.update)
     routes.delete('/customers/:id',

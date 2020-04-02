@@ -3,11 +3,36 @@ const CustomerAttemptQuestion = require('../models/CustomerAttemptQuestion');
 
 module.exports = {
 
-    async create(customer_attempt_id, question_id, custAttemptQuestion) {
+    async findByQuestionId(question_id) {
 
-        const { order } = custAttemptQuestion
+        const custAttemptQuestionResp = await CustomerAttemptQuestion.findAll({ where: { question_id } })
 
-        console.log(order)
+        return custAttemptQuestionResp
+    },
+
+    async findByAnswerId(answer_id) {
+
+        const custAttemptQuestionResp = await CustomerAttemptQuestion.findAll({ where: { answer_id } })
+
+        return custAttemptQuestionResp
+    },
+
+    async findByCustAttemptId(customer_attempt_id) {
+
+        const custAttemptQuestionResp = await CustomerAttemptQuestion.findAll({ where: { customer_attempt_id } })
+
+        return custAttemptQuestionResp
+    },
+
+    async bulkCreate(arrayCustAttQuestions) {
+
+        const custAttemptQuestionResp = await CustomerAttemptQuestion.bulkCreate(arrayCustAttQuestions)
+
+        return custAttemptQuestionResp
+
+    },
+
+    async create(customer_attempt_id, question_id, order) {
 
         const custAttemptQuestionResp = await CustomerAttemptQuestion.create({ customer_attempt_id, question_id, order })
 

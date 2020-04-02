@@ -1,5 +1,9 @@
+const responseApi = require('../utils/responseApi')
 
 const QuestionRepository = require('../repositories/QuestionRepository')
+const AnswerRepository = require('../repositories/AnswerRepository')
+const CustomerAttemptQuestionRepository = require('../repositories/CustomerAttemptQuestionRepository')
+
 
 module.exports = {
     async findAll() {
@@ -21,7 +25,21 @@ module.exports = {
         return questionResp
     },
     async destroy(id) {
-        await QuestionRepository.destroy(id)
 
-    },
+        responseApi.resp = false
+        responseApi.message = 'Não será possível excluir esta \"pergunta\".'
+
+        const questionHasAnswer = await AnswerRepository.findAll(id)
+        if (questionHasAnswer && questionHasAnswer.length === 0) {
+            const questionHascustAttQuest = await CustomerAttemptQuestionRepository.findByQuestionId(id)
+
+            if (questionHascustAttQuest && questionHascustAttQuest.length === 0) {
+                await QuestionRepository.destroy(id)
+                responseApi.resp = true
+                responseApi.message = 'Excluído com sucesso.'
+            }
+        }
+
+        return responseApi
+    }
 }

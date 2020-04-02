@@ -5,7 +5,6 @@ class Customer extends Model {
         super.init({
             name: DataTypes.STRING,
             email: DataTypes.STRING,
-            cpf: DataTypes.STRING,
             active: DataTypes.BOOLEAN,
         }, {
             sequelize: connection,

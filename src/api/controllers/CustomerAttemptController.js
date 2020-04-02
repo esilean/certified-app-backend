@@ -25,6 +25,10 @@ module.exports = {
 
         const customerAttempt = await CustomerAttemptService.create(customer_id, stage_id, request.body)
 
+
+        if (customerAttempt.hasOwnProperty('statusCode'))
+            return response.status(customerAttempt.statusCode).json(customerAttempt);
+
         return response.json(customerAttempt)
 
     },
@@ -40,8 +44,8 @@ module.exports = {
     async destroy(request, response) {
         const { id } = request.params
 
-        await CustomerAttemptService.destroy(id)
+        const resp = await CustomerAttemptService.destroy(id)
 
-        return response.json()
+        return response.status(200).json(resp)
     },
 }

@@ -6,6 +6,12 @@ module.exports = {
         return answers
     },
 
+    async findAnswerById(id) {
+        const answer = await Answers.findByPk(id)
+        return answer
+    },
+
+
     async create(question_id, answer) {
 
         const { name, valid, active } = answer

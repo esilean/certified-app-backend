@@ -88,7 +88,6 @@ CREATE TABLE `Customers`
  `id`         int NOT NULL AUTO_INCREMENT ,
  `name`       varchar(250) NOT NULL ,
  `email`      varchar(100) NOT NULL ,
- `cpf`        varchar(14) NULL ,
  `created_at` datetime NOT NULL ,
  `updated_at` datetime NOT NULL ,
  `active`     tinyint NOT NULL ,

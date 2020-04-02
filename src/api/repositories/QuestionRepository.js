@@ -1,10 +1,24 @@
+const Sequelize = require('sequelize')
 const Questions = require('../models/Question')
+
 
 module.exports = {
     async findAll() {
-        const questions = await Questions.findAll({ include: 'answers' });
+        const questions = await Questions.findAll({ include: ['answers'] });
 
         return questions
+    },
+
+    async findXRandomQuestionWithAnswers(x) {
+        const questions = await Questions.findAll({ limit: x, where: { active: true }, order: Sequelize.literal('rand()'), include: [{ association: 'answers', required: true }] });
+
+        return questions
+    },
+
+    async findQuestionById(question_id) {
+        const questionResp = await Questions.findByPk(id = question_id);
+
+        return questionResp
     },
 
     async create(question) {

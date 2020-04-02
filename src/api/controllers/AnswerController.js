@@ -14,14 +14,18 @@ module.exports = {
         const { question_id } = request.params
 
         const answer = await AnswerService.create(question_id, request.body)
+
+        if (answer.hasOwnProperty('statusCode'))
+            return response.status(answer.statusCode).json(answer);
+
         return response.json(answer);
-        
+
     },
 
     async update(request, response) {
-        const { id } = request.params
-    
-        const answer = await AnswerService.update(id, request.body)
+        const { question_id, id } = request.params
+
+        const answer = await AnswerService.update(question_id, id, request.body)
 
         return response.json(answer)
 
@@ -29,8 +33,8 @@ module.exports = {
     async destroy(request, response) {
         const { id } = request.params
 
-        await AnswerService.destroy(id)
+        const resp = await AnswerService.destroy(id)
 
-        return response.json()
+        return response.status(200).json(resp)
     },
 }

@@ -6,21 +6,31 @@ module.exports = {
         return customers
     },
 
+    async findCustomerById(id) {
+        const customer = await Customers.findByPk(id)
+        return customer
+    },
+
+    async findCustomerByEmail(email) {
+        const customer = await Customers.findAll({ where: { email } })
+        return customer
+    },
+
     async create(customer) {
 
-        const { name, email, cpf, active } = customer
+        const { name, email, active } = customer
 
-        const customerResp = await Customers.create({ name, email, cpf, active })
-        
+        const customerResp = await Customers.create({ name, email, active })
+
         return customerResp
     },
 
     async update(id, customer) {
 
-        const { name, email, cpf, active } = customer
+        const { name, active } = customer
 
         await Customers.update({
-            name, email, cpf, active,
+            name, active,
         }, {
             where: {
                 id

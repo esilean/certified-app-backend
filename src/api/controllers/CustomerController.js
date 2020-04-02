@@ -10,6 +10,9 @@ module.exports = {
 
         customer = await CustomerService.create(request.body)
 
+        if (customer.hasOwnProperty('statusCode'))
+            return response.status(customer.statusCode).json(customer);
+
         return response.json(customer)
     },
 
@@ -24,8 +27,8 @@ module.exports = {
     async destroy(request, response) {
         const { id } = request.params
 
-        await CustomerService.destroy(id)
+        const resp = await CustomerService.destroy(id)
 
-        return response.json()
+        return response.status(200).json(resp)
     },
 }
