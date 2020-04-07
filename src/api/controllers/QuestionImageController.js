@@ -2,9 +2,12 @@
 const QuestionImageService = require('../services/QuestionImageService')
 const QuestionService = require('../services/QuestionService')
 
+const sharp = require('sharp')
+
 const fs = require('fs')
 const path = require('path')
 const { promisify } = require('util')
+
 
 module.exports = {
 
@@ -14,6 +17,23 @@ module.exports = {
         const questionImg = await QuestionImageService.storeImg(id, request)
 
         return response.json(questionImg)
+    },
+
+    async resizeImage(request, response, next) {
+
+        if (!request.file) return next();
+        //const filepath = path.resolve(__dirname, "..", "..", "..", "srcimages", "uploads", `${request.file.filename}`)
+
+        sharp.cache(false)
+        await sharp(request.file.path)
+            .toFormat('jpeg')
+            .jpeg({ quality: 50 })
+            .toBuffer(function (err, buffer) {
+                fs.writeFile(request.file.path, buffer, function (e) {
+                })
+            })
+
+        next()
     },
 
     async destroyImgFromStorage(request, response, next) {

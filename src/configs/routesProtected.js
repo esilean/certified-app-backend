@@ -169,7 +169,7 @@ module.exports = function (server) {
     /** QUESTIONS */
     /** QUESTIONS */
 
-    routes.post('/questions/img/:id', multer(multerConfig).single('file'), QuestionImageController.store)
+    routes.post('/questions/img/:id', multer(multerConfig).single('file'), QuestionImageController.resizeImage, QuestionImageController.store)
     routes.delete('/questions/img/:id', QuestionImageController.destroyImgFromStorage, QuestionImageController.destroy)
 
     routes.get('/questions', QuestionController.index)
