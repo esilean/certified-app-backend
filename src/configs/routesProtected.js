@@ -2,9 +2,13 @@ const { Router } = require('express')
 const { celebrate, Segments, Joi } = require('celebrate')
 const auth = require('./auth')
 
+const multer = require('multer')
+const multerConfig = require('../configs/multer');
+
 const CustomerController = require('../api/controllers/CustomerController')
 
 const QuestionController = require('../api/controllers/QuestionController')
+const QuestionImageController = require('../api/controllers/QuestionImageController')
 const AnswerController = require('../api/controllers/AnswerController')
 
 const StageController = require('../api/controllers/StageController')
@@ -164,11 +168,15 @@ module.exports = function (server) {
     /** QUESTIONS */
     /** QUESTIONS */
     /** QUESTIONS */
+
+    routes.post('/questions/img/:id', multer(multerConfig).single('file'), QuestionImageController.store)
+    routes.delete('/questions/img/:id', QuestionImageController.destroyImgFromStorage, QuestionImageController.destroy)
+
     routes.get('/questions', QuestionController.index)
     routes.post('/questions',
         celebrate({
             [Segments.BODY]: Joi.object({
-                title: Joi.string().required().max(250),
+                title: Joi.string().required().max(1000),
                 value: Joi.number().min(1),
                 active: Joi.number().min(0).max(1),
             }).unknown()
@@ -180,7 +188,7 @@ module.exports = function (server) {
                 id: Joi.number().required().min(1),
             }),
             [Segments.BODY]: Joi.object({
-                title: Joi.string().required().max(250),
+                title: Joi.string().required().max(1000),
                 value: Joi.number().min(1),
                 active: Joi.number().min(0).max(1),
             }).unknown()

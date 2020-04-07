@@ -31,18 +31,21 @@ PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1;
 
 
+
 -- ************************************** `Questions`
 
 CREATE TABLE `Questions`
 (
  `id`          int NOT NULL AUTO_INCREMENT ,
- `title`       varchar(250) NOT NULL ,
+ `title`       varchar(1000) NOT NULL ,
  `value`       int NOT NULL ,
  `active`      tinyint NOT NULL ,
  `created_at`  datetime NOT NULL ,
  `updated_at`  datetime NOT NULL ,
  `description` varchar(1000) NULL ,
  `image_url`   varchar(1000) NULL ,
+ `image_name`  varchar(250) NOT NULL ,
+ `image_key`   varchar(250) NOT NULL ,
 
 PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1;

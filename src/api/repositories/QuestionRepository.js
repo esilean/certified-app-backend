@@ -4,7 +4,7 @@ const Questions = require('../models/Question')
 
 module.exports = {
     async findAll() {
-        const questions = await Questions.findAll({ include: ['answers'] });
+        const questions = await Questions.findAll({ order: [['updated_at', 'desc']], include: ['answers'] });
 
         return questions
     },

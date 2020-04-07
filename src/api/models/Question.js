@@ -6,6 +6,8 @@ class Question extends Model {
             title: DataTypes.STRING,
             description: DataTypes.STRING,
             image_url: DataTypes.STRING,
+            image_name: DataTypes.STRING,
+            image_key: DataTypes.STRING,
             value: DataTypes.INTEGER,
             active: DataTypes.BOOLEAN,
         }, {

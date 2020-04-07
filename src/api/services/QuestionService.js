@@ -13,10 +13,23 @@ module.exports = {
         return questions
     },
 
+    async findQuestionById(id) {
+
+        const question = await QuestionRepository.findQuestionById(id)
+
+        return question
+    },    
+
     async create(question) {
 
         const questionResp = await QuestionRepository.create(question)
         return questionResp
+    },
+
+    async storeImg(id, request) {
+
+        const questionImg = await QuestionRepository.storeImg(id, request)
+        return questionImg
     },
 
     async update(id, question) {
