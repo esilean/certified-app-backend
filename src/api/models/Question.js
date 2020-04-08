@@ -8,6 +8,7 @@ class Question extends Model {
             image_url: DataTypes.STRING,
             image_name: DataTypes.STRING,
             image_key: DataTypes.STRING,
+            image_size: DataTypes.INTEGER,
             value: DataTypes.INTEGER,
             active: DataTypes.BOOLEAN,
         }, {

@@ -44,8 +44,9 @@ CREATE TABLE `Questions`
  `updated_at`  datetime NOT NULL ,
  `description` varchar(1000) NULL ,
  `image_url`   varchar(1000) NULL ,
- `image_name`  varchar(250) NOT NULL ,
- `image_key`   varchar(250) NOT NULL ,
+ `image_name`  varchar(250) NULL ,
+ `image_key`   varchar(250) NULL ,
+ `image_size`  int NULL ,
 
 PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1;
