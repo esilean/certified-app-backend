@@ -3,7 +3,16 @@ const QuestionService = require('../services/QuestionService')
 
 module.exports = {
     async index(request, response) {
+        const { id } = request.params
+
         const questions = await QuestionService.findAll()
+
+        if (id) {
+            const question = questions.filter(quest => quest.id === id)
+            if (question && question.length === 1)
+                return response.json(question[0])
+        }
+
 
         return response.json(questions)
     },

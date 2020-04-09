@@ -173,13 +173,20 @@ module.exports = function (server) {
     routes.delete('/questions/img/:id', QuestionImageController.destroyImgFromStorage, QuestionImageController.destroy)
 
     routes.get('/questions', QuestionController.index)
+    routes.get('/questions/:id',
+        celebrate({
+            [Segments.PARAMS]: Joi.object().keys({
+                id: Joi.number().required().min(1),
+            }),
+        }),
+        QuestionController.index)
     routes.post('/questions',
         celebrate({
             [Segments.BODY]: Joi.object({
                 title: Joi.string().required().max(1000),
                 value: Joi.number().min(1),
                 active: Joi.number().min(0).max(1),
-                answers: Joi.array(),
+                answers: Joi.array().required().min(1),
             }).unknown()
         }),
         QuestionController.store)
