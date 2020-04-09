@@ -18,7 +18,7 @@ module.exports = {
         const question = await QuestionRepository.findQuestionById(id)
 
         return question
-    },    
+    },
 
     async create(question) {
 
@@ -34,7 +34,12 @@ module.exports = {
 
     async update(id, question) {
 
-        const questionResp = await QuestionRepository.update(id, question)
+        let questionResp = {}
+        if (question.answers && question.answers.length > 0)
+            questionResp = await QuestionRepository.updateAndCreateQuestions(id, question)
+        else
+            questionResp = await QuestionRepository.update(id, question)
+
         return questionResp
     },
     async destroy(id) {

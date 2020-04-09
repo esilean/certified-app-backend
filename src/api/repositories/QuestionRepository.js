@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const Questions = require('../models/Question')
+const Answers = require('../models/Answer')
 
 
 module.exports = {
@@ -22,34 +23,64 @@ module.exports = {
     },
 
     async create(question) {
+        const { title, description, value, active, answers } = question
 
-        const { title, description, image_url, value, active } = question
-
-        const questionResp = await Questions.create({ title, description, image_url, value, active })
+        const questionResp = await Questions.create({ title, description, value, active, answers }, {
+            include: ['answers']
+        })
         return questionResp
 
     },
 
     async update(id, question) {
 
-        const { title, description, image_url, value, active } = question
-
-        await Questions.update({
-            title, description, image_url, value, active
-        }, {
-            where: {
-                id
-            }
-        })
+        const { title, description, value, active, answers } = question
+        await Questions.update({ title, description, value, active },
+            {
+                where: {
+                    id
+                }
+            })
 
         let questionResp = await Questions.findOne({ where: { id } })
 
         return questionResp
 
     },
+    async updateAndCreateQuestions(id, question) {
+
+        const { title, description, value, active, answers } = question
+
+        const answersWithQuestionId = answers.map(ans => {
+            return { ...ans, question_id: id }
+        })
+
+
+        //exclui todas as respostas
+        const response = await Answers.findAll({ raw: true, attributes: ['id'], where: { question_id: id } })
+        const ids = response.map(resp => { return resp.id })
+        await Answers.destroy({ where: { id: ids } })
+
+        //atualiza a pergunta e insere as respostas
+        await Questions.update({ title, description, value, active },
+            {
+                where: {
+                    id
+                }
+            }).then(() => Answers.bulkCreate(answersWithQuestionId))
+
+        let questionResp = await Questions.findOne({ where: { id } })
+
+        return questionResp
+
+    },
+
+
+
     async destroy(id) {
 
         await Questions.destroy({ where: { id } })
 
     },
 }
+

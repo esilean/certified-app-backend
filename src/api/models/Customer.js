@@ -5,7 +5,10 @@ class Customer extends Model {
         super.init({
             name: DataTypes.STRING,
             email: DataTypes.STRING,
-            active: DataTypes.BOOLEAN,
+            active: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: true
+            },
         }, {
             sequelize: connection,
             tableName: 'Customers'

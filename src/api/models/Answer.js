@@ -5,7 +5,10 @@ class Answer extends Model {
         super.init({
             name: DataTypes.STRING,
             valid: DataTypes.BOOLEAN,
-            active: DataTypes.BOOLEAN,
+            active: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: true
+            },
         }, {
             sequelize: connection,
             tableName: 'Answers'
@@ -16,7 +19,7 @@ class Answer extends Model {
         this.belongsTo(models.Question, {
             foreignKey: 'question_id', as: 'question',
         })
-    }    
+    }
 
 }
 

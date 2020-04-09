@@ -10,7 +10,10 @@ class Question extends Model {
             image_key: DataTypes.STRING,
             image_size: DataTypes.INTEGER,
             value: DataTypes.INTEGER,
-            active: DataTypes.BOOLEAN,
+            active: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: true
+            },
         }, {
             sequelize: connection,
             tableName: 'Questions'

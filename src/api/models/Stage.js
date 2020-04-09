@@ -4,7 +4,10 @@ class Stage extends Model {
     static init(connection) {
         super.init({
             name: DataTypes.STRING,
-            active: DataTypes.BOOLEAN,
+            active: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: true
+            },
         }, {
             sequelize: connection,
             tableName: 'Stages'

@@ -179,6 +179,7 @@ module.exports = function (server) {
                 title: Joi.string().required().max(1000),
                 value: Joi.number().min(1),
                 active: Joi.number().min(0).max(1),
+                answers: Joi.array(),
             }).unknown()
         }),
         QuestionController.store)
