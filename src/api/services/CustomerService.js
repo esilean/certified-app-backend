@@ -1,7 +1,7 @@
 const responseApi = require('../utils/responseApi')
 
 const CustomerRepository = require('../repositories/CustomerRepository');
-const CustomerAttemptRepository = require('../repositories/CustomerAttemptRepository');
+const CustomerStageRepository = require('../repositories/CustomerStageRepository');
 
 module.exports = {
     async findAll() {
@@ -14,7 +14,7 @@ module.exports = {
        // inicializar resposta de erro
        responseApi.statusCode = 200
        
-        const emailHasCustomer = await CustomerRepository.findCustomerByEmail(customer.email)
+        const emailHasCustomer = await CustomerRepository.findByCustomerEmail(customer.email)
         if(emailHasCustomer && emailHasCustomer.length > 0)
         {
             responseApi.statusCode = 404
@@ -40,9 +40,9 @@ module.exports = {
         responseApi.resp = false
         responseApi.message = 'Não será possível excluir este \"cliente\".'
 
-        const customerHasAttempt = await CustomerAttemptRepository.findByCustomerId(id)
+        const customerHasStage = await CustomerStageRepository.findByCustomerId(id)
 
-        if (customerHasAttempt && customerHasAttempt.length === 0) {
+        if (customerHasStage && customerHasStage.length === 0) {
 
             await CustomerRepository.destroy(id)
             responseApi.resp = true

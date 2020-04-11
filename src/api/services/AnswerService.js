@@ -2,7 +2,7 @@ const responseApi = require('../utils/responseApi')
 
 const AnswerRepository = require('../repositories/AnswerRepository')
 const QuestionRepository = require('../repositories/QuestionRepository')
-const CustomerAttemptQuestionRepository = require('../repositories/CustomerAttemptQuestionRepository')
+const CustomerStageOneRepository = require('../repositories/CustomerStageOneRepository')
 
 
 module.exports = {
@@ -52,9 +52,9 @@ module.exports = {
     },
     async destroy(id) {
 
-        const answerHasCustAttQuestion = await CustomerAttemptQuestionRepository.findByAnswerId(id)
+        const answerHasStageOne = await CustomerStageOneRepository.findByAnswerId(id)
 
-        if (answerHasCustAttQuestion && answerHasCustAttQuestion.length === 0) {
+        if (answerHasStageOne && answerHasStageOne.length === 0) {
             await AnswerRepository.destroy(id)
             responseApi.resp = true
             responseApi.message = 'Excluído com sucesso.'
@@ -92,7 +92,7 @@ async function validateValidAnswerOnUpdating(question_id, id, answer) {
     const answerValid = answers.filter(f => f.valid === true && f.active === true)
     if (answerValid && answerValid.length > 0) {
 
-        const answerExist = await AnswerRepository.findAnswerById(id)
+        const answerExist = await AnswerRepository.findByAnswerId(id)
 
         if (answer.valid === 1 && answerValid[0].id !== answerExist.id) {
             responseApi.statusCode = 404

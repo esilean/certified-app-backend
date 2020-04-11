@@ -12,8 +12,8 @@ const Answers = require('../api/models/Answer')
 const Stages = require('../api/models/Stage')
 
 const Customers = require('../api/models/Customer')
-const CustomerAttempts = require('../api/models/CustomerAttempt')
-const CustomerAttemptQuestion = require('../api/models/CustomerAttemptQuestion')
+const CustomerStages = require('../api/models/CustomerStage')
+const CustomerStageOnes = require('../api/models/CustomerStageOne')
 
 const connection = new Sequelize(dbConfig)
 
@@ -25,17 +25,15 @@ Answers.init(connection)
 Stages.init(connection)
 
 Customers.init(connection)
-CustomerAttempts.init(connection)
-CustomerAttemptQuestion.init(connection)
+CustomerStages.init(connection)
+CustomerStageOnes.init(connection)
 
 Questions.associate(connection.models)
 Answers.associate(connection.models)
 Stages.associate(connection.models)
 Customers.associate(connection.models)
 
-CustomerAttempts.associate(connection.models)
-CustomerAttemptQuestion.associate(connection.models)
-
-
+CustomerStages.associate(connection.models)
+CustomerStageOnes.associate(connection.models)
 
 module.exports = connection

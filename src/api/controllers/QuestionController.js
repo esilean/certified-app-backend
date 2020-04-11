@@ -8,11 +8,12 @@ module.exports = {
         const questions = await QuestionService.findAll()
 
         if (id) {
-            const question = questions.filter(quest => quest.id === id)
-            if (question && question.length === 1)
-                return response.json(question[0])
-        }
+            let question = await QuestionService.findQuestionById(id)
+            if(question === null)
+                return response.status(400).send()
 
+            return response.json(question)
+        }
 
         return response.json(questions)
     },

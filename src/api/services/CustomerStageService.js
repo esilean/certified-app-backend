@@ -1,34 +1,33 @@
 const responseApi = require('../utils/responseApi')
 
-const CustomerAttemptRepository = require('../repositories/CustomerAttemptRepository');
-const CustomerAttemptQuestionRepository = require('../repositories/CustomerAttemptQuestionRepository');
+const CustomerStageRepository = require('../repositories/CustomerStageRepository');
+const CustomerStageOneRepository = require('../repositories/CustomerStageOneRepository');
 const CustomerRepository = require('../repositories/CustomerRepository');
 const QuestionRepository = require('../repositories/QuestionRepository');
 
-const CustomerAttemptQuestion = require('../models/CustomerAttemptQuestion')
 
 
 module.exports = {
     async findByCustomerId(customer_id) {
 
-        const customerAttempts = await CustomerAttemptRepository.findByCustomerId(customer_id)
+        const respCustStage = await CustomerStageRepository.findByCustomerId(customer_id)
 
-        return customerAttempts
+        return respCustStage
     },
-    async findByCustomerIdAndStage(customer_id, stage_id) {
+    async findByCustomerIdAndStageId(customer_id, stage_id) {
 
-        const customerAttempts = await CustomerAttemptRepository.findByCustomerIdAndStage(customer_id, stage_id)
+        const respCustStage = await CustomerStageRepository.findByCustomerIdAndStageId(customer_id, stage_id)
 
-        return customerAttempts
+        return respCustStage
     },
 
-    async create(customer_id, stage_id, custAttempt) {
+    async create(customer_id, stage_id, custStage) {
 
         // inicializar resposta de erro
         responseApi.statusCode = 200
 
         //verifica se o cliente existe
-        const customerIdExist = await CustomerRepository.findCustomerById(customer_id)
+        const customerIdExist = await CustomerRepository.findByCustomerId(customer_id)
         if (!customerIdExist || customerIdExist === null) {
             responseApi.statusCode = 404
             responseApi.resp = false
@@ -41,27 +40,23 @@ module.exports = {
             return respStageOpened
 
         // criar tentativa da etapa
-        const customerAttempt = await CustomerAttemptRepository.create(customer_id, stage_id, custAttempt)
+        const customerStage = await CustomerStageRepository.create(customer_id, stage_id, custStage)
 
         //se etapa 1, abrir X questoes aleatorias
         if (stage_id === 1) {
-            const questionsCreated = await generateRandomQuestions(customerAttempt.id, 10)
+            const { qty_questions } = custStage
+            await generateRandomQuestions(customerStage.id, qty_questions)
         }
 
-
-
-        return customerAttempt
+        return customerStage
 
     },
 
-    async update(id, custAttempt) {
+    async update(id, custStage) {
 
+        const customerStage = await CustomerStageRepository.update(id, custStage)
 
-        // so pode atualizar se date_end for null???? e se o usuario cliclou no botao errado?! EM ABERTO!
-
-        const customerAttempt = await CustomerAttemptRepository.update(id, custAttempt)
-
-        return customerAttempt
+        return customerStage
 
     },
     async destroy(id) {
@@ -69,11 +64,11 @@ module.exports = {
         responseApi.resp = false
         responseApi.message = 'Não será possível excluir esta \"tentativa\".'
 
-        const custAttHasQuestion = await CustomerAttemptQuestionRepository.findByCustAttemptId(id)
+        const custStageHasQuestion = await CustomerStageOneRepository.findByCustomerStageId(id)
 
-        if (custAttHasQuestion && custAttHasQuestion.length === 0) {
+        if (custStageHasQuestion && custStageHasQuestion.length === 0) {
 
-            await CustomerAttemptRepository.destroy(id)
+            await CustomerStageRepository.destroy(id)
             responseApi.resp = true
             responseApi.message = 'Excluído com sucesso.'
 
@@ -85,44 +80,44 @@ module.exports = {
 }
 
 
-async function generateRandomQuestions(custAttemptId, qty) {
+async function generateRandomQuestions(customer_stage_id, qty) {
 
 
     const questions = await QuestionRepository.findXRandomQuestionWithAnswers(qty)
 
     let order = 1
-    let custAttpsQuestions = []
+    let custStageQuestions = []
     questions.forEach(async quest => {
 
-        custAttpsQuestions.push({
-            customer_attempt_id: custAttemptId,
+        custStageQuestions.push({
+            customer_stage_id: customer_stage_id,
             question_id: quest.id,
+            value: 0,
             order
         })
 
         order = order + 1
     });
 
-    await CustomerAttemptQuestionRepository.bulkCreate(custAttpsQuestions)
-
+    await CustomerStageOneRepository.bulkCreate(custStageQuestions)
 
 }
 
 
 async function validateStageOpened(customer_id, stage_id) {
     // regra para criacao de tentativas e etapas
-    const custAtts = await CustomerAttemptRepository.findByCustomerId(customer_id)
+    const custStages = await CustomerStageRepository.findByCustomerId(customer_id)
     // 1ª - se existir qualquer tentativa em aberto, bloqueia
-    let custAttsIsOpened = custAtts.filter(x => x.date_end === null)
-    if (custAttsIsOpened && custAttsIsOpened.length > 0) {
+    let custStageIsOpened = custStages.filter(x => x.date_end === null)
+    if (custStageIsOpened && custStageIsOpened.length > 0) {
         responseApi.statusCode = 400
         responseApi.message = 'Não será possível abrir uma nova \"etapa\". Já existe etapa em andamento'
         return responseApi
     }
 
     //2ª - se existir etapa aprovada
-    custAttsIsOpened = custAtts.filter(x => x.stage_id === stage_id && x.approved === 1)
-    if (custAttsIsOpened && custAttsIsOpened.length > 0) {
+    custStageIsOpened = custStages.filter(x => x.stage_id === stage_id && x.approved === true)
+    if (custStageIsOpened && custStageIsOpened.length > 0) {
         responseApi.statusCode = 400
         responseApi.message = 'Não será possível abrir uma nova \"etapa\". Você já foi aprovado'
         return responseApi
@@ -132,9 +127,9 @@ async function validateStageOpened(customer_id, stage_id) {
     if (stage_id > 1) // não é preciso validar a primeira etapa
     {
         //procuro saber se a etapa anterior (stage_id - 1) foi aprovada
-        custAttsIsOpened = custAtts.filter(x => x.stage_id === (stage_id - 1) && x.approved === 1)
-        //console.log(custAttsIsOpened)
-        if (!custAttsIsOpened || custAttsIsOpened.length <= 0) {
+        custStageIsOpened = custStages.filter(x => x.stage_id === (stage_id - 1) && x.approved === true)
+
+        if (!custStageIsOpened || custStageIsOpened.length <= 0) {
             responseApi.statusCode = 400
             responseApi.message = 'Não será possível abrir uma nova \"etapa\". Você não foi aprovado.'
             return responseApi

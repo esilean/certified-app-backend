@@ -3,8 +3,17 @@ const { Model, DataTypes } = require('sequelize');
 class Customer extends Model {
     static init(connection) {
         super.init({
+            id: {
+                type: DataTypes.INTEGER,
+                autoIncrement: true,
+                primaryKey: true,
+            },
             name: DataTypes.STRING,
-            email: DataTypes.STRING,
+            password: DataTypes.STRING,
+            email: {
+                type: DataTypes.STRING,
+                unique: true,
+            },
             active: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: true
@@ -16,8 +25,8 @@ class Customer extends Model {
     }
 
     static associate(models) {
-        this.hasMany(models.CustomerAttempt, { foreignKey: 'customer_id', as: 'customers' })
-    }      
+        this.hasMany(models.CustomerStage, { foreignKey: 'customer_id', as: 'customerStages' })
+    }
 
 }
 

@@ -6,21 +6,21 @@ module.exports = {
         return customers
     },
 
-    async findCustomerById(id) {
+    async findByCustomerId(id) {
         const customer = await Customers.findByPk(id)
         return customer
     },
 
-    async findCustomerByEmail(email) {
+    async findByCustomerEmail(email) {
         const customer = await Customers.findAll({ where: { email } })
         return customer
     },
 
     async create(customer) {
 
-        const { name, email, active } = customer
+        const { name, email, password, active } = customer
 
-        const customerResp = await Customers.create({ name, email, active })
+        const customerResp = await Customers.create({ name, email, password, active })
 
         return customerResp
     },

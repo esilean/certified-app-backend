@@ -3,14 +3,12 @@ const jwt = require('jsonwebtoken')
 
 module.exports = (request, response, next) => {
 
-    //console.log(process.env.AUTH_SECRET)
-
     if (request.method === 'OPTIONS') {
         next()
     } else {
 
         const token = request.body.token || request.query.token || request.headers['authorization']
-        //console.log(token)
+        
 
         if (!token)
             return response.status(403).send({

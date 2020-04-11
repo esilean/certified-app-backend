@@ -2,7 +2,7 @@ const responseApi = require('../utils/responseApi')
 
 const QuestionRepository = require('../repositories/QuestionRepository')
 const AnswerRepository = require('../repositories/AnswerRepository')
-const CustomerAttemptQuestionRepository = require('../repositories/CustomerAttemptQuestionRepository')
+const CustomerStageOneRepository = require('../repositories/CustomerStageOneRepository')
 
 
 module.exports = {
@@ -49,9 +49,9 @@ module.exports = {
 
         const questionHasAnswer = await AnswerRepository.findAll(id)
         if (questionHasAnswer && questionHasAnswer.length === 0) {
-            const questionHascustAttQuest = await CustomerAttemptQuestionRepository.findByQuestionId(id)
+            const questionHasStageOne = await CustomerStageOneRepository.findByQuestionId(id)
 
-            if (questionHascustAttQuest && questionHascustAttQuest.length === 0) {
+            if (questionHasStageOne && questionHasStageOne.length === 0) {
                 await QuestionRepository.destroy(id)
                 responseApi.resp = true
                 responseApi.message = 'Excluído com sucesso.'

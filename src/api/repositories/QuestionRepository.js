@@ -3,15 +3,53 @@ const Questions = require('../models/Question')
 const Answers = require('../models/Answer')
 
 
+
 module.exports = {
     async findAll() {
-        const questions = await Questions.findAll({ order: [['updated_at', 'desc']], include: ['answers'] });
+        const questions = await Questions.findAll({
+            attributes: {
+                include: [
+                    [Sequelize.literal('ifnull((select 0 from customerStageOnes csq where csq.question_id = question.id limit 1), 1)'), 'canUpdate']
+                ]
+            },
+            include: ['answers'],
+            order: [['updated_at', 'desc']]
+        })
+
+        //example query more complex
+        // const questions = await Questions.findAll({
+        //     attributes: [
+        //         'id', 'title', 'description', 'value', 'active', 'image_url', 'image_name', 'image_key', 'image_size', 'created_at', 'updated_at',
+        //         [Sequelize.fn('COUNT', Sequelize.col('customerAttemptQuestions.id')), 'no_question_ans']
+        //     ],
+        //     include: [
+        //         {
+        //             association: 'answers',
+        //             required: true,
+        //         },
+        //         {
+        //             association: 'customerAttemptQuestions',
+        //             required: false,
+        //             attributes: []
+        //         }
+        //     ],
+        //     group: ['question.id', 'answers.id'],
+        //     order: [['updated_at', 'desc']],
+        // })
+
+
+
 
         return questions
     },
 
     async findXRandomQuestionWithAnswers(x) {
-        const questions = await Questions.findAll({ limit: x, where: { active: true }, order: Sequelize.literal('rand()'), include: [{ association: 'answers', required: true }] });
+        const questions = await Questions.findAll({
+            include: [{ association: 'answers', required: true }],
+            where: { active: true },
+            order: Sequelize.literal('rand()'),
+            limit: x,
+        })
 
         return questions
     },
