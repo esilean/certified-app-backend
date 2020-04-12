@@ -5,17 +5,17 @@ module.exports = {
     async index(request, response) {
         const { id } = request.params
 
-        const questions = await QuestionService.findAll()
-
         if (id) {
             let question = await QuestionService.findQuestionById(id)
-            if(question === null)
+            if (question === null)
                 return response.status(400).send()
 
             return response.json(question)
+        } else {
+            const questions = await QuestionService.findAll()
+            return response.json(questions)
         }
 
-        return response.json(questions)
     },
 
     async store(request, response) {

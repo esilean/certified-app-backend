@@ -114,13 +114,33 @@ module.exports = function (server) {
         }),
         CustomerStageController.destroy)
 
-
-
-
     /** STAGES */
     /** STAGES */
     /** STAGES */
     routes.get('/stages', StageController.index)
+    routes.get('/stages/:id',
+        celebrate({
+            [Segments.PARAMS]: Joi.object().keys({
+                id: Joi.number().required().min(1).max(4),
+            }),
+        }),
+        StageController.index)
+    routes.put('/stages/:id',
+        celebrate({
+            [Segments.PARAMS]: Joi.object().keys({
+                id: Joi.number().required().min(1).max(4),
+            }),
+            [Segments.BODY]: Joi.object({
+                name: Joi.string().required().max(45),
+                title_ini: Joi.string().required().max(100),
+                title_end: Joi.string().required().max(100),
+                description_ini: Joi.string().required().max(4000),
+                description_end: Joi.string().required().max(4000),
+                duration_min: Joi.number().required().min(0),
+                question_qty: Joi.number().required().min(0),
+            }).unknown()
+        }),
+        StageController.update)
 
 
     /** ANSWERS */
