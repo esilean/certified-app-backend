@@ -1,15 +1,13 @@
-const Sequelize = require('sequelize')
+const sequelize = require('sequelize')
 const Questions = require('../models/Question')
 const Answers = require('../models/Answer')
-
-
 
 module.exports = {
     async findAll() {
         const questions = await Questions.findAll({
             attributes: {
                 include: [
-                    [Sequelize.literal('ifnull((select 0 from customerStageOnes csq where csq.question_id = question.id limit 1), 1)'), 'canUpdate']
+                    [sequelize.literal('ifnull((select 0 from customerStageOnes csq where csq.question_id = question.id limit 1), 1)'), 'canUpdate']
                 ]
             },
             include: ['answers'],
@@ -20,7 +18,7 @@ module.exports = {
         // const questions = await Questions.findAll({
         //     attributes: [
         //         'id', 'title', 'description', 'value', 'active', 'image_url', 'image_name', 'image_key', 'image_size', 'created_at', 'updated_at',
-        //         [Sequelize.fn('COUNT', Sequelize.col('customerAttemptQuestions.id')), 'no_question_ans']
+        //         [sequelize.fn('COUNT', sequelize.col('customerAttemptQuestions.id')), 'no_question_ans']
         //     ],
         //     include: [
         //         {
@@ -47,7 +45,7 @@ module.exports = {
         const questions = await Questions.findAll({
             include: [{ association: 'answers', required: true }],
             where: { active: true },
-            order: Sequelize.literal('rand()'),
+            order: sequelize.literal('rand()'),
             limit: x,
         })
 
@@ -60,32 +58,39 @@ module.exports = {
         return questionResp
     },
 
-    async create(question) {
+    async create(transaction, question) {
         const { title, description, value, active, answers } = question
 
-        const questionResp = await Questions.create({ title, description, value, active, answers }, {
-            include: ['answers']
-        })
+        const questionResp = await Questions.create(
+            { title, description, value, active, answers },
+            {
+                include: ['answers'],
+                transaction,
+            }
+        )
         return questionResp
 
     },
 
-    async update(id, question) {
+    async update(transaction, id, question) {
 
-        const { title, description, value, active, answers } = question
-        await Questions.update({ title, description, value, active },
+        const { title, description, value, active } = question
+        await Questions.update(
+            { title, description, value, active },
             {
                 where: {
                     id
-                }
-            })
+                },
+                transaction
+            }
+        )
 
         let questionResp = await Questions.findOne({ where: { id } })
 
         return questionResp
 
     },
-    async updateAndCreateQuestions(id, question) {
+    async updateAndCreateQuestions(transaction, id, question) {
 
         const { title, description, value, active, answers } = question
 
@@ -97,15 +102,19 @@ module.exports = {
         //exclui todas as respostas
         const response = await Answers.findAll({ raw: true, attributes: ['id'], where: { question_id: id } })
         const ids = response.map(resp => { return resp.id })
-        await Answers.destroy({ where: { id: ids } })
+        await Answers.destroy({ where: { id: ids }, transaction, })
 
         //atualiza a pergunta e insere as respostas
-        await Questions.update({ title, description, value, active },
+        await Questions.update(
+            { title, description, value, active },
             {
                 where: {
                     id
-                }
-            }).then(() => Answers.bulkCreate(answersWithQuestionId))
+                },
+                transaction,
+            })
+
+        await Answers.bulkCreate(answersWithQuestionId, { transaction })
 
         let questionResp = await Questions.findOne({ where: { id } })
 

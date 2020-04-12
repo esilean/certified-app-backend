@@ -17,6 +17,8 @@ const CustomerStageOnes = require('../api/models/CustomerStageOne')
 
 const connection = new Sequelize(dbConfig)
 
+
+
 Users.init(connection)
 
 Questions.init(connection)

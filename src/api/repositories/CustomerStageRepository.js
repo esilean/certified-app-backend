@@ -15,11 +15,11 @@ module.exports = {
         return respCustStage
     },
 
-    async create(customer_id, stage_id, custStage) {
+    async create(transaction, customer_id, stage_id, custStage) {
 
         const { date_ini } = custStage
 
-        const respCustStage = await CustomerStages.create({ customer_id, stage_id, date_ini, approved: 0 })
+        const respCustStage = await CustomerStages.create({ customer_id, stage_id, date_ini, approved: 0 }, { transaction })
 
         return respCustStage
 

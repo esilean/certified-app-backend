@@ -5,7 +5,7 @@ const CustomerStageOneRepository = require('../repositories/CustomerStageOneRepo
 const CustomerRepository = require('../repositories/CustomerRepository');
 const QuestionRepository = require('../repositories/QuestionRepository');
 
-
+const trans = require('../repositories/Transactions')
 
 module.exports = {
     async findByCustomerId(customer_id) {
@@ -25,27 +25,40 @@ module.exports = {
 
         // inicializar resposta de erro
         responseApi.statusCode = 200
+        let customerStage = {}
 
-        //verifica se o cliente existe
-        const customerIdExist = await CustomerRepository.findByCustomerId(customer_id)
-        if (!customerIdExist || customerIdExist === null) {
-            responseApi.statusCode = 404
-            responseApi.resp = false
-            responseApi.message = 'O \"cliente\" para esta \"tentativa\" não foi informado.'
-            return responseApi
-        }
 
-        const respStageOpened = await validateStageOpened(customer_id, stage_id)
-        if (respStageOpened)
-            return respStageOpened
+        //abre transacao
+        const transaction = await trans.begin()
+        try {
 
-        // criar tentativa da etapa
-        const customerStage = await CustomerStageRepository.create(customer_id, stage_id, custStage)
+            //verifica se o cliente existe
+            const customerIdExist = await CustomerRepository.findByCustomerId(customer_id)
+            if (!customerIdExist || customerIdExist === null) {
+                responseApi.statusCode = 404
+                responseApi.resp = false
+                responseApi.message = 'O \"cliente\" para esta \"tentativa\" não foi informado.'
+                return responseApi
+            }
 
-        //se etapa 1, abrir X questoes aleatorias
-        if (stage_id === 1) {
-            const { qty_questions } = custStage
-            await generateRandomQuestions(customerStage.id, qty_questions)
+            const respStageOpened = await validateStageOpened(customer_id, stage_id)
+            if (respStageOpened)
+                return respStageOpened
+
+            // criar tentativa da etapa
+            customerStage = await CustomerStageRepository.create(transaction, customer_id, stage_id, custStage)
+
+            //se etapa 1, abrir X questoes aleatorias
+            if (stage_id === 1) {
+                const { qty_questions } = custStage
+                await generateRandomQuestions(transaction, customerStage.id, qty_questions)
+            }
+
+            //commita transacao
+            await trans.commit(transaction)
+        } catch (error) {
+            //volta transacao
+            await trans.rollback(transaction)
         }
 
         return customerStage
@@ -80,7 +93,7 @@ module.exports = {
 }
 
 
-async function generateRandomQuestions(customer_stage_id, qty) {
+async function generateRandomQuestions(transaction, customer_stage_id, qty) {
 
 
     const questions = await QuestionRepository.findXRandomQuestionWithAnswers(qty)
@@ -99,7 +112,7 @@ async function generateRandomQuestions(customer_stage_id, qty) {
         order = order + 1
     });
 
-    await CustomerStageOneRepository.bulkCreate(custStageQuestions)
+    await CustomerStageOneRepository.bulkCreate(transaction, custStageQuestions)
 
 }
 

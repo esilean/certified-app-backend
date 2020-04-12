@@ -24,9 +24,9 @@ module.exports = {
         return respCustStageOne
     },
 
-    async bulkCreate(custStageOneArr) {
+    async bulkCreate(transaction, custStageOneArr) {
 
-        const respCustStageOne = await CustomerStageOnes.bulkCreate(custStageOneArr)
+        const respCustStageOne = await CustomerStageOnes.bulkCreate(custStageOneArr, { transaction })
 
         return respCustStageOne
 

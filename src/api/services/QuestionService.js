@@ -4,6 +4,7 @@ const QuestionRepository = require('../repositories/QuestionRepository')
 const AnswerRepository = require('../repositories/AnswerRepository')
 const CustomerStageOneRepository = require('../repositories/CustomerStageOneRepository')
 
+const trans = require('../repositories/Transactions')
 
 module.exports = {
     async findAll() {
@@ -22,23 +23,42 @@ module.exports = {
 
     async create(question) {
 
-        const questionResp = await QuestionRepository.create(question)
+        let questionResp = {}
+
+        //abre transacao
+        const transaction = await trans.begin()
+        try {
+
+            questionResp = await QuestionRepository.create(transaction, question)
+
+            //commita transacao
+            await trans.commit(transaction)
+        } catch (error) {
+            //volta transacao
+            await trans.rollback(transaction)
+        }
+
         return questionResp
-    },
-
-    async storeImg(id, request) {
-
-        const questionImg = await QuestionRepository.storeImg(id, request)
-        return questionImg
     },
 
     async update(id, question) {
 
         let questionResp = {}
-        if (question.answers && question.answers.length > 0)
-            questionResp = await QuestionRepository.updateAndCreateQuestions(id, question)
-        else
-            questionResp = await QuestionRepository.update(id, question)
+
+        //abre transacao
+        const transaction = await trans.begin()
+        try {
+            if (question.answers && question.answers.length > 0)
+                questionResp = await QuestionRepository.updateAndCreateQuestions(transaction, id, question)
+            else
+                questionResp = await QuestionRepository.update(transaction, id, question)
+
+            //commita transacao
+            await trans.commit(transaction)
+        } catch (error) {
+            //volta transacao
+            await trans.rollback(transaction)
+        }
 
         return questionResp
     },
