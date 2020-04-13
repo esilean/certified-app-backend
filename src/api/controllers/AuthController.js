@@ -8,7 +8,7 @@ const emailRegex = /\S+@\S+\.\S+/
 
 const login = (request, response) => {
 
-  
+
     const { email = '', password = '' } = request.body
 
     User.findOne({
@@ -18,13 +18,13 @@ const login = (request, response) => {
     }).then(data => {
         if (data) {
             const user = data.get()
+            const { name } = user
 
             if (user !== null && bcrypt.compareSync(password, user.password)) {
-                const token = jwt.sign(user, process.env.AUTH_SECRET, {
+                const token = jwt.sign({ name, email }, process.env.AUTH_SECRET, {
                     expiresIn: '1 day'
                 })
 
-                const { name } = user
                 return response.json({ name, email, token })
             }
         }

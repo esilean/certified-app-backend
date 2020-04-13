@@ -18,13 +18,13 @@ const login = (request, response) => {
     }).then(data => {
         if (data) {
             const customer = data.get()
+            const { name } = customer
 
             if (customer !== null && bcrypt.compareSync(password, customer.password)) {
-                const token = jwt.sign(customer, process.env.AUTH_SECRET, {
+                const token = jwt.sign({ name, email }, process.env.AUTH_SECRET, {
                     expiresIn: '1 day'
                 })
 
-                const { name } = customer
                 return response.json({ name, email, token })
             }
         }
