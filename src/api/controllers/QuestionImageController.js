@@ -40,7 +40,7 @@ module.exports = {
 
         const { id } = request.params
 
-        const question = await QuestionService.findQuestionById(id)
+        const question = await QuestionService.findByQuestionId(id)
         if (question) {
             if (process.env.STORAGE_TYPE === 'local') {
                 promisify(fs.unlink)(path.resolve(__dirname, "..", "..", "..", "srcimages", "uploads", question.image_key))

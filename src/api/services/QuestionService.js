@@ -14,9 +14,9 @@ module.exports = {
         return questions
     },
 
-    async findQuestionById(id) {
+    async findByQuestionId(id) {
 
-        const question = await QuestionRepository.findQuestionById(id)
+        const question = await QuestionRepository.findByQuestionId(id)
 
         return question
     },

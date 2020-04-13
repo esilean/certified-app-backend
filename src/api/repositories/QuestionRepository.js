@@ -52,7 +52,7 @@ module.exports = {
         return questions
     },
 
-    async findQuestionById(question_id) {
+    async findByQuestionId(question_id) {
         const questionResp = await Questions.findByPk(id = question_id);
 
         return questionResp

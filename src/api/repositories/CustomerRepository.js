@@ -2,12 +2,16 @@ const Customers = require('../models/Customer');
 
 module.exports = {
     async findAll() {
-        const customers = await Customers.findAll()
+        const customers = await Customers.findAll({
+            attributes: { exclude: ['password'] }
+        })
         return customers
     },
 
     async findByCustomerId(id) {
-        const customer = await Customers.findByPk(id)
+        const customer = await Customers.findByPk(id, {
+            attributes: { exclude: ['password'] }
+        })
         return customer
     },
 

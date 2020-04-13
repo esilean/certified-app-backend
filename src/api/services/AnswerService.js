@@ -17,7 +17,7 @@ module.exports = {
         responseApi.statusCode = 200
 
         //verifica se a pergunta existe
-        const questionIdExist = await QuestionRepository.findQuestionById(question_id)
+        const questionIdExist = await QuestionRepository.findByQuestionId(question_id)
         if (!questionIdExist || questionIdExist === null) {
             responseApi.statusCode = 404
             responseApi.resp = false

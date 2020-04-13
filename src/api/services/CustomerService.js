@@ -9,6 +9,11 @@ module.exports = {
         return customers
     },
 
+    async findByCustomerId(id) {
+        const customers = await CustomerRepository.findByCustomerId(id)
+        return customers
+    },    
+
     async create(customer) {
 
        // inicializar resposta de erro

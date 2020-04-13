@@ -6,7 +6,7 @@ module.exports = {
         const { id } = request.params
 
         if (id) {
-            let question = await QuestionService.findQuestionById(id)
+            let question = await QuestionService.findByQuestionId(id)
             if (question === null)
                 return response.status(400).send()
 

@@ -2,8 +2,18 @@ const CustomerService = require('../services/CustomerService');
 
 module.exports = {
     async index(request, response) {
-        const customers = await CustomerService.findAll()
-        return response.json(customers)
+        const { id } = request.params
+
+        if (id) {
+            let customer = await CustomerService.findByCustomerId(id)
+            if (customer === null)
+                return response.status(400).send()
+
+            return response.json(customer)
+        } else {
+            const customers = await CustomerService.findAll()
+            return response.json(customers)
+        }
     },
 
     async store(request, response) {
