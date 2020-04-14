@@ -53,7 +53,7 @@ module.exports = {
     },
 
     async findByQuestionId(question_id) {
-        const questionResp = await Questions.findByPk(id = question_id);
+        const questionResp = await Questions.findByPk(id = question_id, { include: ['answers'] });
 
         return questionResp
     },

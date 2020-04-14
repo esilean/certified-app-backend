@@ -3,6 +3,16 @@ const CustomerStageOnes = require('../models/CustomerStageOne');
 
 module.exports = {
 
+    async findByCustomerIdAndOrder(customer_stage_id, order) {
+        const respCustStageOne = await CustomerStageOnes.findOne(
+            {
+                where: { customer_stage_id, order },
+                include: [{ association: 'questions', required: true, include: ['answers'] }]
+            })
+
+        return respCustStageOne
+    },
+
     async findByQuestionId(question_id) {
 
         const respCustStageOne = await CustomerStageOnes.findAll({ where: { question_id } })

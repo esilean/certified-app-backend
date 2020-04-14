@@ -93,7 +93,7 @@ CONSTRAINT `FK_question_id_14` FOREIGN KEY `fkIdx_21` (`question_id`) REFERENCES
 
 CREATE TABLE `Customers`
 (
- `id`         int NOT NULL AUTO_INCREMENT ,
+ `id`         char(36) NOT NULL,
  `name`       varchar(250) NOT NULL ,
  `email`      varchar(100) NOT NULL ,
  `password`   varchar(100) NOT NULL ,
@@ -103,14 +103,14 @@ CREATE TABLE `Customers`
 
 PRIMARY KEY (`id`),
 UNIQUE KEY `Ind_email_73` (`email`)
-) AUTO_INCREMENT=1;
+);
 
 -- ************************************** `CustomerStages`
 
 CREATE TABLE `CustomerStages`
 (
  `id`          int NOT NULL AUTO_INCREMENT ,
- `customer_id` int NOT NULL ,
+ `customer_id` char(36) NOT NULL ,
  `stage_id`    int NOT NULL ,
  `date_ini`    datetime NOT NULL ,
  `date_end`    datetime NULL ,

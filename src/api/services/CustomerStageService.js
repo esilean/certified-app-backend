@@ -14,11 +14,11 @@ module.exports = {
 
         return respCustStage
     },
-    async findByCustomerIdAndStageId(customer_id, stage_id) {
+    async findCurrentStage(customer_id, stage_id) {
 
-        const respCustStage = await CustomerStageRepository.findByCustomerIdAndStageId(customer_id, stage_id)
+        const customerStage = await CustomerStageRepository.findCurrentStage(customer_id, stage_id)
 
-        return respCustStage
+        return customerStage
     },
 
     async create(customer_id, stage_id, custStage) {
@@ -46,16 +46,21 @@ module.exports = {
                 return respStageOpened
 
             // criar tentativa da etapa
-            customerStage = await CustomerStageRepository.create(transaction, customer_id, stage_id, custStage)
+            const customerStageCreated = await CustomerStageRepository.create(transaction, customer_id, stage_id, custStage)
 
             //se etapa 1, abrir X questoes aleatorias
             if (stage_id === 1) {
                 const { qty_questions } = custStage
-                await generateRandomQuestions(transaction, customerStage.id, qty_questions)
+                await generateRandomQuestions(transaction, customerStageCreated.id, qty_questions)
             }
 
             //commita transacao
             await trans.commit(transaction)
+
+            customerStage = await CustomerStageRepository.findCurrentStage(customer_id, stage_id)
+            return customerStage
+
+
         } catch (error) {
             //volta transacao
             await trans.rollback(transaction)

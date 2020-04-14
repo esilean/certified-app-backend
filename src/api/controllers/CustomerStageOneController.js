@@ -3,6 +3,15 @@ const CustomerStageOneService = require('../services/CustomerStageOneService');
 
 module.exports = {
 
+    async findByCustomerIdAndOrder(request, response) {
+        const { customer_stage_id, order } = request.params
+
+        const respCustStageOne = await CustomerStageOneService.findByCustomerIdAndOrder(customer_stage_id, order)
+
+        return response.json(respCustStageOne)
+
+    },
+
     async store(request, response) {
 
         const { customer_stage_id, question_id } = request.params

@@ -10,11 +10,11 @@ module.exports = {
 
         return response.json(customerStages)
     },
-    async indexStage(request, response) {
+    async findCurrentStage(request, response) {
 
         const { customer_id, stage_id } = request.params
 
-        const customerStages = await CustomerStageService.findByCustomerIdAndStageId(customer_id, stage_id)
+        const customerStages = await CustomerStageService.findCurrentStage(customer_id, stage_id)
 
         return response.json(customerStages);
     },

@@ -4,8 +4,7 @@ class Customer extends Model {
     static init(connection) {
         super.init({
             id: {
-                type: DataTypes.INTEGER,
-                autoIncrement: true,
+                type: DataTypes.CHAR(36),
                 primaryKey: true,
             },
             name: DataTypes.STRING,

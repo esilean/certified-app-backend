@@ -1,4 +1,5 @@
 const Customers = require('../models/Customer');
+const { v4: uuidv4 } = require('uuid')
 
 module.exports = {
     async findAll() {
@@ -22,9 +23,10 @@ module.exports = {
 
     async create(customer) {
 
+        const id = uuidv4()
         const { name, email, password, active } = customer
 
-        const customerResp = await Customers.create({ name, email, password, active })
+        const customerResp = await Customers.create({ id, name, email, password, active })
 
         return customerResp
     },

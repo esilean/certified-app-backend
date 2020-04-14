@@ -1,16 +1,28 @@
 const CustomerStages = require('../models/CustomerStage');
+const CustomerStageOne = require('../models/CustomerStageOne');
 
 
 module.exports = {
     async findByCustomerId(customer_id) {
 
-        const respCustStage = await CustomerStages.findAll({ where: { customer_id }, include: ['stages', 'customers', 'customerStageOnes'] })
+        const respCustStage = await CustomerStages.findAll(
+            {
+                where: { customer_id },
+                include: ['customerStageOnes'],
+            }
+        )
 
         return respCustStage
     },
-    async findByCustomerIdAndStageId(customer_id, stage_id) {
+    async findCurrentStage(customer_id, stage_id) {
 
-        const respCustStage = await CustomerStages.findAll({ where: { customer_id, stage_id }, include: ['stages', 'customers', 'customerStageOnes'] })
+        const respCustStage = await CustomerStages.findOne(
+            {
+                where: { customer_id, stage_id },
+                include: ['customerStageOnes'],
+                order: [['updated_at', 'desc'], [{model: CustomerStageOne, as: 'customerStageOnes'}, 'order', 'asc']]
+            }
+        )
 
         return respCustStage
     },
