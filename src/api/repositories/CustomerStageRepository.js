@@ -27,6 +27,37 @@ module.exports = {
         return respCustStage
     },
 
+    async findByPkToCalculateResult(id) {
+
+        const respCustStage = await CustomerStages.findByPk(id,
+            {
+                attributes: ['id', 'date_ini', 'date_end', 'questions_qty', 'duration_min', 'grade_perc_min'],
+                include: [
+                    {
+                        attributes: ['id', 'answer_id', 'value'],
+                        association: 'customerStageOnes',
+                        required: true,
+                        include: [{
+                            attributes: ['id'],
+                            association: 'question',
+                            required: true,
+                            include: [{
+                                attributes: ['id'],
+                                association: 'answers',
+                                required: true,
+                                where: {
+                                    valid: true
+                                }
+                            }]
+                        }]
+                    },
+                ],
+            }
+        )
+
+        return respCustStage
+    },
+
     async create(transaction, customer_id, stage_id, custStage) {
 
         const { questions_qty, duration_min, grade_perc_min } = custStage

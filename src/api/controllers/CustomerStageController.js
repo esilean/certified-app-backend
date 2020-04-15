@@ -41,6 +41,14 @@ module.exports = {
         return response.json(customerStage)
 
     },
+    async result(request, response) {
+        const { id } = request.params
+
+        const customerStage = await CustomerStageService.calculateResult(id)
+
+        return response.json(customerStage)
+
+    },    
     async destroy(request, response) {
         const { id } = request.params
 

@@ -77,6 +77,13 @@ module.exports = function (server) {
     /** CUSTOMER STAGE */
     /** CUSTOMER STAGE */
     /** CUSTOMER STAGE */
+    routes.get('/customerstage/:id/result',
+        celebrate({
+            [Segments.PARAMS]: Joi.object().keys({
+                id: Joi.number().required().min(1),
+            }),
+        }),
+        CustomerStageController.result)    
     routes.get('/customerstage/:customer_id',
         celebrate({
             [Segments.PARAMS]: Joi.object().keys({
