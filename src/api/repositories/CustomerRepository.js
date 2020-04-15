@@ -11,24 +11,15 @@ module.exports = {
 
     async findByCustomerId(id) {
         const customer = await Customers.findByPk(id, {
-            attributes: { exclude: ['password'] }
+            attributes: { exclude: ['password'] },
+            include: ['customerStages', 'customerEmails']
         })
         return customer
     },
 
     async findByCustomerEmail(email) {
-        const customer = await Customers.findAll({ where: { email } })
+        const customer = await Customers.findAll({ attributes: { exclude: ['password'] }, where: { email } })
         return customer
-    },
-
-    async create(customer) {
-
-        const id = uuidv4()
-        const { name, email, password, active } = customer
-
-        const customerResp = await Customers.create({ id, name, email, password, active })
-
-        return customerResp
     },
 
     async update(id, customer) {

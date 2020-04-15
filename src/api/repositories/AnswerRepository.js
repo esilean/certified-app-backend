@@ -2,12 +2,12 @@ const Answers = require('../models/Answer');
 
 module.exports = {
     async findAll(question_id) {
-        const answers = await Answers.findAll({ where: { question_id }, include: 'questions' })
+        const answers = await Answers.findAll({ where: { question_id }, include: 'question' })
         return answers
     },
 
     async findByAnswerId(id) {
-        const answer = await Answers.findByPk(id)
+        const answer = await Answers.findByPk(id, { include: 'question' })
         return answer
     },
 

@@ -6,13 +6,15 @@ DROP TABLE `CustomerStageOnes`;
 
 DROP TABLE `CustomerStages`;
 
+DROP TABLE `CustomerEmails`;
+
 DROP TABLE `Customers`;
+
+DROP TABLE `Stages`;
 
 DROP TABLE `Answers`;
 
 DROP TABLE `Questions`;
-
-DROP TABLE `Stages`;
 
 DROP TABLE `Users`;
 
@@ -22,7 +24,7 @@ DROP TABLE `Users`;
 
 CREATE TABLE `Users`
 (
- `id`         int NOT NULL AUTO_INCREMENT ,
+ `id`          char(36) NOT NULL ,
  `name`       varchar(50) NOT NULL ,
  `email`      varchar(100) NOT NULL ,
  `password`   varchar(100) NOT NULL ,
@@ -31,7 +33,7 @@ CREATE TABLE `Users`
 
 PRIMARY KEY (`id`),
 UNIQUE KEY `Ind_email_72` (`email`)
-) AUTO_INCREMENT=1;
+)
 
 -- ************************************** `Questions`
 
@@ -73,17 +75,40 @@ CONSTRAINT `FK_question_id_14` FOREIGN KEY `fkIdx_21` (`question_id`) REFERENCES
 
 CREATE TABLE `Customers`
 (
- `id`         char(36) NOT NULL,
- `name`       varchar(250) NOT NULL ,
- `email`      varchar(100) NOT NULL ,
- `password`   varchar(100) NOT NULL ,
- `active`     tinyint NOT NULL ,
- `created_at` datetime NOT NULL ,
- `updated_at` datetime NOT NULL ,
+ `id`           char(36) NOT NULL ,
+ `name`         varchar(250) NOT NULL ,
+ `email`        varchar(100) NOT NULL ,
+ `password`     varchar(100) NOT NULL ,
+ `access_token` varchar(100) NULL ,
+ `active`       tinyint NOT NULL ,
+ `created_at`   datetime NOT NULL ,
+ `updated_at`   datetime NOT NULL ,
 
 PRIMARY KEY (`id`),
+UNIQUE KEY `Ind_95_token` (`access_token`),
 UNIQUE KEY `Ind_email_73` (`email`)
 );
+
+-- ************************************** `CustomerEmails`
+
+CREATE TABLE `CustomerEmails`
+(
+ `id`          char(36) NOT NULL ,
+ `customer_id` char(36) NOT NULL ,
+ `email_from`  varchar(75) NOT NULL ,
+ `email_to`    varchar(1000) NOT NULL ,
+ `email_body`  varchar(1000) NOT NULL ,
+ `subject`     varchar(250) NOT NULL ,
+ `message_id`   varchar(100) NULL ,
+ `error`       varchar(1000) NULL ,
+ `created_at`  datetime NOT NULL ,
+ `updated_at`  datetime NOT NULL ,
+
+PRIMARY KEY (`id`),
+KEY `fkIdx_91` (`customer_id`),
+CONSTRAINT `FK_customer_email_id_91` FOREIGN KEY `fkIdx_91` (`customer_id`) REFERENCES `Customers` (`id`)
+);
+
 
 -- ************************************** `Stages`
 

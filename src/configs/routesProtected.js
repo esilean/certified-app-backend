@@ -6,6 +6,7 @@ const multer = require('multer')
 const multerConfig = require('../configs/multer');
 
 const CustomerController = require('../api/controllers/CustomerController')
+const CustomerEmailController = require('../api/controllers/CustomerEmailController')
 
 const QuestionController = require('../api/controllers/QuestionController')
 const QuestionImageController = require('../api/controllers/QuestionImageController')
@@ -244,6 +245,15 @@ module.exports = function (server) {
     /** CUSTOMERS */
     /** CUSTOMERS */
     /** CUSTOMERS */
+
+    routes.get('/customers/:customer_id/email',
+        celebrate({
+            [Segments.PARAMS]: Joi.object().keys({
+                customer_id: Joi.string().required().min(36).max(36),
+            }),
+        }),
+        CustomerEmailController.index)
+
     routes.get('/customers', CustomerController.index)
     routes.get('/customers/:id',
         celebrate({
@@ -252,16 +262,6 @@ module.exports = function (server) {
             }),
         }),
         CustomerController.index)
-    routes.post('/customers',
-        celebrate({
-            [Segments.BODY]: Joi.object().keys({
-                name: Joi.string().required().max(250),
-                password: Joi.string().required().max(100),
-                email: Joi.string().required().max(100),
-                active: Joi.number().min(0).max(1),
-            })
-        }),
-        CustomerController.store)
     routes.put('/customers/:id',
         celebrate({
             [Segments.PARAMS]: Joi.object().keys({

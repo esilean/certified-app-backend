@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const { v4: uuidv4 } = require('uuid')
 
 const User = require('../models/User')
 
 const emailRegex = /\S+@\S+\.\S+/
-
 
 const login = (request, response) => {
 
@@ -18,10 +18,10 @@ const login = (request, response) => {
     }).then(data => {
         if (data) {
             const user = data.get()
-            const { name } = user
+            const { id, name } = user
 
             if (user !== null && bcrypt.compareSync(password, user.password)) {
-                const token = jwt.sign({ name, email }, process.env.AUTH_SECRET, {
+                const token = jwt.sign({ id, name, email }, process.env.AUTH_SECRET, {
                     expiresIn: '1 day'
                 })
 
@@ -44,7 +44,7 @@ const login = (request, response) => {
     })
 }
 
-const signup = (request, response) => {
+const signup = async (request, response) => {
 
     const { name, email, password, confirmPassword } = request.body
 
@@ -78,7 +78,10 @@ const signup = (request, response) => {
             })
         } else {
 
+            const id = uuidv4()
+
             User.create({
+                id,
                 email,
                 name,
                 password: passHash

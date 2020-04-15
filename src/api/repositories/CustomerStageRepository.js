@@ -19,7 +19,7 @@ module.exports = {
         const respCustStage = await CustomerStages.findOne(
             {
                 where: { customer_id, stage_id },
-                include: ['stages', 'customerStageOnes'],
+                include: ['stage', 'customerStageOnes'],
                 order: [['updated_at', 'desc'], [{ model: CustomerStageOne, as: 'customerStageOnes' }, 'order', 'asc']]
             }
         )
@@ -45,7 +45,7 @@ module.exports = {
             }
         })
 
-        const respCustStage = await CustomerStages.findOne({ where: { id }, include: ['stages', 'customerStageOnes'] })
+        const respCustStage = await CustomerStages.findOne({ where: { id }, include: ['stage', 'customerStageOnes'] })
 
         return respCustStage
 

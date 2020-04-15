@@ -20,10 +20,10 @@ class CustomerStage extends Model {
 
     static associate(models) {
         this.belongsTo(models.Customer, {
-            foreignKey: 'customer_id', as: 'customers',
+            foreignKey: 'customer_id', as: 'customer',
         })
         this.belongsTo(models.Stage, {
-            foreignKey: 'stage_id', as: 'stages',
+            foreignKey: 'stage_id', as: 'stage',
         })
 
         this.hasMany(models.CustomerStageOne, { foreignKey: 'customer_stage_id', as: 'customerStageOnes' })     

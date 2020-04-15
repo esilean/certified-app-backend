@@ -12,25 +12,6 @@ module.exports = {
     async findByCustomerId(id) {
         const customers = await CustomerRepository.findByCustomerId(id)
         return customers
-    },    
-
-    async create(customer) {
-
-       // inicializar resposta de erro
-       responseApi.statusCode = 200
-       
-        const emailHasCustomer = await CustomerRepository.findByCustomerEmail(customer.email)
-        if(emailHasCustomer && emailHasCustomer.length > 0)
-        {
-            responseApi.statusCode = 404
-            responseApi.resp = false
-            responseApi.message = 'O \"email\" informado já está cadastrado.'            
-            return responseApi
-        }
-
-        const customerResp = await CustomerRepository.create(customer)
-
-        return customerResp
     },
 
     async update(id, customer) {

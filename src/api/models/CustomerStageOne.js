@@ -13,13 +13,13 @@ class CustomerStageOne extends Model {
 
     static associate(models) {
         this.belongsTo(models.CustomerStage, {
-            foreignKey: 'customer_stage_id', as: 'customerStages',
+            foreignKey: 'customer_stage_id', as: 'customerStage',
         })
         this.belongsTo(models.Question, {
-            foreignKey: 'question_id', as: 'questions',
+            foreignKey: 'question_id', as: 'question',
         })
         this.belongsTo(models.Answer, {
-            foreignKey: 'answer_id', as: 'answers',
+            foreignKey: 'answer_id', as: 'answer',
         })
     }
 

@@ -44,6 +44,46 @@ const login = (request, response) => {
     })
 }
 
+const loginByToken = (request, response) => {
+
+
+    // const { access_token } = request.body
+
+    // Customer.findOne({
+    //     where: {
+    //         email,
+    //         access_token,
+    //     }
+    // }).then(data => {
+    //     if (data) {
+    //         const customer = data.get()
+    //         const { id, name, email } = customer
+
+    //         if (customer !== null && bcrypt.compareSync(password, customer.password)) {
+    //             const token = jwt.sign({ id, name, email }, process.env.AUTH_SECRET, {
+    //                 expiresIn: '1 day'
+    //             })
+
+    //             return response.json({ name, email, token })
+    //         }
+    //     }
+
+    //     return response.status(400).send({
+    //         statusCode: 400,
+    //         error: "Bad Request",
+    //         message: "Email or password is wrong.",
+    //     })
+
+    // }).catch(err => {
+    //     return response.status(400).send({
+    //         statusCode: 400,
+    //         error: "Bad Request",
+    //         message: err.message,
+    //     })
+    // })
+}
+
+
 const signup = (request, response) => {
 
     const { name, email, password, confirmPassword } = request.body
@@ -122,6 +162,7 @@ const vtoken = (request, response) => {
 
 module.exports = {
     login,
+    loginByToken,
     signup,
     vtoken,
 }    

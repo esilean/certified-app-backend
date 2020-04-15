@@ -7,7 +7,7 @@ module.exports = {
         const respCustStageOne = await CustomerStageOnes.findOne(
             {
                 where: { customer_stage_id, order },
-                include: [{ association: 'questions', required: true, include: ['answers'] }]
+                include: [{ association: 'question', required: true, include: ['answers'] }]
             })
 
         return respCustStageOne

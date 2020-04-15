@@ -16,16 +16,6 @@ module.exports = {
         }
     },
 
-    async store(request, response) {
-
-        customer = await CustomerService.create(request.body)
-
-        if (customer.hasOwnProperty('statusCode'))
-            return response.status(customer.statusCode).json(customer);
-
-        return response.json(customer)
-    },
-
     async update(request, response) {
         const { id } = request.params
 

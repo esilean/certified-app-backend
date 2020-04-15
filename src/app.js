@@ -20,7 +20,6 @@ app.use(
     express.static(path.resolve(__dirname, '..', 'srcimages', 'uploads'))
 )
 
-
 require('./configs/routes')(app)
 require('./configs/routesProtected')(app)
 

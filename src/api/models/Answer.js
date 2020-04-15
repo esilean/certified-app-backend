@@ -22,7 +22,7 @@ class Answer extends Model {
 
     static associate(models) {
         this.belongsTo(models.Question, {
-            foreignKey: 'question_id', as: 'questions',
+            foreignKey: 'question_id', as: 'question',
         })
     }
 
