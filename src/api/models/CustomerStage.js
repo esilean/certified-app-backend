@@ -5,6 +5,9 @@ class CustomerStage extends Model {
         super.init({
             date_ini: DataTypes.DATE,
             date_end: DataTypes.DATE,
+            questions_qty: DataTypes.INTEGER,
+            duration_min: DataTypes.INTEGER,
+            grade_perc_min: DataTypes.DOUBLE,
             approved: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: false

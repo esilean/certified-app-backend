@@ -50,8 +50,8 @@ module.exports = {
 
             //se etapa 1, abrir X questoes aleatorias
             if (stage_id === 1) {
-                const { qty_questions } = custStage
-                await generateRandomQuestions(transaction, customerStageCreated.id, qty_questions)
+                const { questions_qty } = custStage
+                await generateRandomQuestions(transaction, customerStageCreated.id, questions_qty)
             }
 
             //commita transacao

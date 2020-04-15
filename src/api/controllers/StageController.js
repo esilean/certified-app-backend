@@ -15,15 +15,12 @@ module.exports = {
             return response.json(stages)
         }
 
-
     },
     async update(request, response) {
         const { id } = request.params
-        const { name, title_ini, description_ini, video_url_ini, title_end, description_end, video_url_end, duration_min, question_qty } = request.body
+        // const { name, title_ini, description_ini, video_url_ini, title_end, description_end, video_url_end, duration_min, question_qty } = request.body
 
-        await Stages.update({
-            name, title_ini, description_ini, video_url_ini, title_end, description_end, video_url_end, duration_min, question_qty
-        }, {
+        await Stages.update(request.body, {
             where: {
                 id
             }

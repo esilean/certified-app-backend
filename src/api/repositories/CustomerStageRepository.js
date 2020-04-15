@@ -19,8 +19,8 @@ module.exports = {
         const respCustStage = await CustomerStages.findOne(
             {
                 where: { customer_id, stage_id },
-                include: ['customerStageOnes'],
-                order: [['updated_at', 'desc'], [{model: CustomerStageOne, as: 'customerStageOnes'}, 'order', 'asc']]
+                include: ['stages', 'customerStageOnes'],
+                order: [['updated_at', 'desc'], [{ model: CustomerStageOne, as: 'customerStageOnes' }, 'order', 'asc']]
             }
         )
 
@@ -29,26 +29,23 @@ module.exports = {
 
     async create(transaction, customer_id, stage_id, custStage) {
 
-        const { date_ini } = custStage
+        const { questions_qty, duration_min, grade_perc_min } = custStage
 
-        const respCustStage = await CustomerStages.create({ customer_id, stage_id, date_ini, approved: 0 }, { transaction })
+        const respCustStage = await CustomerStages.create({ customer_id, stage_id, questions_qty, duration_min, grade_perc_min, approved: 0 }, { transaction })
 
         return respCustStage
 
     },
 
     async update(id, custStage) {
-        const { date_end, approved } = custStage
 
-        await CustomerStages.update({
-            date_end, approved
-        }, {
+        await CustomerStages.update(custStage, {
             where: {
                 id
             }
         })
 
-        const respCustStage = await CustomerStages.findOne({ where: { id } })
+        const respCustStage = await CustomerStages.findOne({ where: { id }, include: ['stages', 'customerStageOnes'] })
 
         return respCustStage
 

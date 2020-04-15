@@ -33,26 +33,6 @@ PRIMARY KEY (`id`),
 UNIQUE KEY `Ind_email_72` (`email`)
 ) AUTO_INCREMENT=1;
 
--- ************************************** `Stages`
-
-CREATE TABLE `Stages`
-(
- `id`              int NOT NULL ,
- `name`            varchar(45) NOT NULL ,
- `title_ini`       varchar(100) NOT NULL ,
- `description_ini` varchar(4000) NOT NULL ,
- `video_url_ini`   varchar(250) NULL ,
- `title_end`       varchar(100) NOT NULL ,
- `description_end` varchar(4000) NOT NULL ,
- `video_url_end`   varchar(250) NULL ,
- `duration_min`    int NOT NULL ,
- `question_qty`    int NOT NULL ,
- `created_at`      datetime NOT NULL ,
- `updated_at`      datetime NOT NULL ,
-
-PRIMARY KEY (`id`)
-);
-
 -- ************************************** `Questions`
 
 CREATE TABLE `Questions`
@@ -105,6 +85,35 @@ PRIMARY KEY (`id`),
 UNIQUE KEY `Ind_email_73` (`email`)
 );
 
+-- ************************************** `Stages`
+
+CREATE TABLE `Stages`
+(
+ `id`              int NOT NULL ,
+ `name`            varchar(55) NOT NULL ,
+ `title_ini`       varchar(150) NOT NULL ,
+ `description_ini` varchar(4000) NOT NULL ,
+ `video_url_ini`   varchar(250) NULL ,
+
+ `title_end`       varchar(150) NOT NULL ,
+ `description_end` varchar(4000) NOT NULL ,
+ `video_url_end`   varchar(250) NULL ,
+
+  `title_end_fail`       varchar(150) NOT NULL ,
+ `description_end_fail` varchar(4000) NOT NULL ,
+ `video_url_end_fail`   varchar(250) NULL ,
+
+ `duration_min`    int NOT NULL ,
+  `questions_qty`    int NOT NULL ,
+  `grade_perc_min`    double NOT NULL ,
+  `max_attempts`    int NOT NULL ,    
+
+ `created_at`      datetime NOT NULL ,
+ `updated_at`      datetime NOT NULL ,
+
+PRIMARY KEY (`id`)
+);
+
 -- ************************************** `CustomerStages`
 
 CREATE TABLE `CustomerStages`
@@ -112,7 +121,10 @@ CREATE TABLE `CustomerStages`
  `id`          int NOT NULL AUTO_INCREMENT ,
  `customer_id` char(36) NOT NULL ,
  `stage_id`    int NOT NULL ,
- `date_ini`    datetime NOT NULL ,
+ `questions_qty`    int NOT NULL ,
+ `duration_min`    int NOT NULL ,
+ `grade_perc_min`    double NOT NULL ,
+ `date_ini`    datetime NULL ,
  `date_end`    datetime NULL ,
  `approved`    tinyint NOT NULL ,
  `created_at`  datetime NOT NULL ,

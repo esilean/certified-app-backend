@@ -98,8 +98,9 @@ module.exports = function (server) {
                 stage_id: Joi.number().required().min(1).max(4),
             }),
             [Segments.BODY]: Joi.object().keys({
-                date_ini: Joi.date().required(),
-                qty_questions: Joi.number().required(),
+                questions_qty: Joi.number().required().min(0),
+                duration_min: Joi.number().required().min(1),
+                grade_perc_min: Joi.number().required().min(0),
             })
         }),
         CustomerStageController.store)
@@ -108,10 +109,6 @@ module.exports = function (server) {
             [Segments.PARAMS]: Joi.object().keys({
                 id: Joi.number().required().min(1),
             }),
-            [Segments.BODY]: Joi.object().keys({
-                date_end: Joi.date().required(),
-                approved: Joi.number().min(0).max(1),
-            })
         }),
         CustomerStageController.update)
     routes.delete('/customerstage/:id',
@@ -139,13 +136,17 @@ module.exports = function (server) {
                 id: Joi.number().required().min(1).max(4),
             }),
             [Segments.BODY]: Joi.object({
-                name: Joi.string().required().max(45),
-                title_ini: Joi.string().required().max(100),
-                title_end: Joi.string().required().max(100),
+                name: Joi.string().required().max(55),
+                title_ini: Joi.string().required().max(150),
+                title_end: Joi.string().required().max(150),
+                title_end_fail: Joi.string().required().max(150),
                 description_ini: Joi.string().required().max(4000),
                 description_end: Joi.string().required().max(4000),
-                duration_min: Joi.number().required().min(0),
-                question_qty: Joi.number().required().min(0),
+                description_end_fail: Joi.string().required().max(4000),
+                duration_min: Joi.number().required().min(1),
+                questions_qty: Joi.number().required().min(0),
+                grade_perc_min: Joi.number().required().min(0),
+                max_attempts: Joi.number().required().min(1),
             }).unknown()
         }),
         StageController.update)
