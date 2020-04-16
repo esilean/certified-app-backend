@@ -81,28 +81,30 @@ module.exports = {
 
         const customerStage = await CustomerStageRepository.findByPkToCalculateResult(id)
 
-        const { grade_perc_min, customerStageOnes } = customerStage
+        if (customerStage) {
+            const { grade_perc_min, customerStageOnes } = customerStage
 
-        const totalValueQuestions = customerStageOnes.reduce((total, q) => {
-            return q.value + total
-        }, 0)
+            const totalValueQuestions = customerStageOnes.reduce((total, q) => {
+                return q.value + total
+            }, 0)
 
-        //how many questions did he/she get right? and how much points(value) did he get?
-        const totalValueRightQuestions = customerStageOnes.filter(q => {
-            return q.answer_id === q.question.answers[0].id
-        }).reduce((total, q) => {
-            return q.value + total
-        }, 0)
+            //how many questions did he/she get right? and how much points(value) did he get?
+            const totalValueRightQuestions = customerStageOnes.filter(q => {
+                return q.answer_id === q.question.answers[0].id
+            }).reduce((total, q) => {
+                return q.value + total
+            }, 0)
 
-        const grade_perc = ((totalValueRightQuestions / totalValueQuestions) * 100.00)
+            const grade_perc = ((totalValueRightQuestions / totalValueQuestions) * 100.00)
 
-        const resp = {
-            grade_perc,
-            grade_perc_min,
-            approved: (grade_perc >= grade_perc_min)
+            const resp = {
+                grade_perc,
+                grade_perc_min,
+                approved: (grade_perc >= grade_perc_min)
+            }
+
+            return resp
         }
-
-        return resp
 
     },
     async destroy(id) {

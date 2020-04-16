@@ -1,3 +1,4 @@
+const sequelize = require('sequelize')
 const CustomerStageOnes = require('../models/CustomerStageOne');
 
 
@@ -7,7 +8,18 @@ module.exports = {
         const respCustStageOne = await CustomerStageOnes.findOne(
             {
                 where: { customer_stage_id, order },
-                include: [{ association: 'question', required: true, include: ['answers'] }]
+                include: [
+                    {
+                        association: 'question',
+                        required: true,
+                        include: [
+                            {
+                                association: 'answers',
+                                required: true,
+                            }
+                        ]
+                    }],
+                order: sequelize.literal('rand()'),
             })
 
         return respCustStageOne
