@@ -14,9 +14,9 @@ module.exports = {
 
         return respCustStage
     },
-    async findCurrentStage(customer_id, stage_id) {
+    async findCurrentStage(customer_id) {
 
-        const customerStage = await CustomerStageRepository.findCurrentStage(customer_id, stage_id)
+        const customerStage = await CustomerStageRepository.findCurrentStage(customer_id)
 
         return customerStage
     },

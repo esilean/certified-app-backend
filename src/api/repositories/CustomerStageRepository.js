@@ -14,13 +14,13 @@ module.exports = {
 
         return respCustStage
     },
-    async findCurrentStage(customer_id, stage_id) {
+    async findCurrentStage(customer_id) {
 
         const respCustStage = await CustomerStages.findOne(
             {
-                where: { customer_id, stage_id },
+                where: { customer_id },
                 include: ['stage', 'customerStageOnes'],
-                order: [['updated_at', 'desc'], [{ model: CustomerStageOne, as: 'customerStageOnes' }, 'order', 'asc']]
+                order: [['stage_id', 'desc'], ['updated_at', 'desc'], [{ model: CustomerStageOne, as: 'customerStageOnes' }, 'order', 'asc']]
             }
         )
 

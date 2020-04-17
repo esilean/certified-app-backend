@@ -91,11 +91,10 @@ module.exports = function (server) {
             }),
         }),
         CustomerStageController.index)
-    routes.get('/customerstage/:customer_id/:stage_id',
+    routes.get('/customerstage/:customer_id/current',
         celebrate({
             [Segments.PARAMS]: Joi.object().keys({
                 customer_id: Joi.string().required().min(36).max(36),
-                stage_id: Joi.number().required().min(1).max(4),
             }),
         }),
         CustomerStageController.findCurrentStage)

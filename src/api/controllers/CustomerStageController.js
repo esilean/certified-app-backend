@@ -12,9 +12,9 @@ module.exports = {
     },
     async findCurrentStage(request, response) {
 
-        const { customer_id, stage_id } = request.params
+        const { customer_id } = request.params
 
-        const customerStages = await CustomerStageService.findCurrentStage(customer_id, stage_id)
+        const customerStages = await CustomerStageService.findCurrentStage(customer_id)
 
         return response.json(customerStages);
     },
@@ -48,7 +48,7 @@ module.exports = {
 
         return response.json(customerStage)
 
-    },    
+    },
     async destroy(request, response) {
         const { id } = request.params
 
