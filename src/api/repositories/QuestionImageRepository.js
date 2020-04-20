@@ -1,4 +1,4 @@
-const Questions = require('../models/Question')
+const Questions = require('../../database/models/Question')
 
 module.exports = {
     async storeImg(id, request) {

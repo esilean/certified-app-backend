@@ -1,19 +1,25 @@
-
 const QuestionService = require('../services/QuestionService')
 
+const { ErrorHandler } = require('../error')
+
 module.exports = {
-    async index(request, response) {
+    async index(request, response, next) {
         const { id } = request.params
 
-        if (id) {
-            let question = await QuestionService.findByQuestionId(id)
-            if (question === null)
-                return response.status(400).send()
+        try {
 
-            return response.json(question)
-        } else {
-            const questions = await QuestionService.findAll()
-            return response.json(questions)
+            if (id) {
+                const question = await QuestionService.findByPk(id)
+                if (question === null)
+                    throw new ErrorHandler(404, 'Question not found.')
+
+                return response.json(question)
+            } else {
+                const questions = await QuestionService.findAll()
+                return response.json(questions)
+            }
+        } catch (error) {
+            next(error)
         }
 
     },
@@ -25,19 +31,33 @@ module.exports = {
         return response.json(question)
     },
 
-    async update(request, response) {
+    async update(request, response, next) {
         const { id } = request.params
 
-        const question = await QuestionService.update(id, request.body)
+        try {
 
-        return response.json(question)
+            const question = await QuestionService.update(id, request.body)
+
+            return response.json(question)
+
+        } catch (error) {
+            next(error)
+        }
 
     },
-    async destroy(request, response) {
+    async destroy(request, response, next) {
         const { id } = request.params
 
-        const resp = await QuestionService.destroy(id)
+        try {
 
-        return response.status(200).json(resp)
+            const resp = await QuestionService.destroy(id)
+            if (resp)
+                throw new ErrorHandler(400, resp)
+
+            return response.status(204).send()
+        } catch (error) {
+            next(error)
+        }
+
     },
 }

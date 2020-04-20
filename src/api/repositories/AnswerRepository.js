@@ -1,4 +1,4 @@
-const Answers = require('../models/Answer');
+const Answers = require('../../database/models/Answer');
 
 module.exports = {
     async findAll(question_id) {

@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { v4: uuidv4 } = require('uuid')
 
-const Customer = require('../models/Customer')
+const Customer = require('../../database/models/Customer')
 
 const emailRegex = /\S+@\S+\.\S+/
 

@@ -1,5 +1,3 @@
-const responseApi = require('../utils/responseApi')
-
 const AnswerRepository = require('../repositories/AnswerRepository')
 const QuestionRepository = require('../repositories/QuestionRepository')
 const CustomerStageOneRepository = require('../repositories/CustomerStageOneRepository')
@@ -13,16 +11,11 @@ module.exports = {
 
     async create(question_id, answer) {
 
-        // inicializar resposta de erro
-        responseApi.statusCode = 200
 
         //verifica se a pergunta existe
         const questionIdExist = await QuestionRepository.findByQuestionId(question_id)
         if (!questionIdExist || questionIdExist === null) {
-            responseApi.statusCode = 404
-            responseApi.resp = false
-            responseApi.message = 'A \"pergunta\" para esta \"resposta\" não foi informada.'
-            return responseApi
+            //retornar erro
         }
 
         //verifica total de respostas certas, so pode existir 1 resposta correta
@@ -36,9 +29,6 @@ module.exports = {
     },
 
     async update(question_id, id, answer) {
-
-        // inicializar resposta de erro
-        responseApi.statusCode = 200
 
         //verifica total de respostas certas, so pode existir 1 resposta correta
         const validAnswer = await validateValidAnswerOnUpdating(question_id, id, answer)
@@ -56,14 +46,9 @@ module.exports = {
 
         if (answerHasStageOne && answerHasStageOne.length === 0) {
             await AnswerRepository.destroy(id)
-            responseApi.resp = true
-            responseApi.message = 'Excluído com sucesso.'
         } else {
-            responseApi.resp = false
-            responseApi.message = 'Não será possível excluir esta \"resposta\".'
+            //retornar erro
         }
-
-        return responseApi
 
     },
 }
@@ -75,14 +60,10 @@ async function validateValidAnswerOnCreating(question_id, answer) {
     const answerValid = answers.filter(f => f.valid === true && f.active === true)
     if (answerValid && answerValid.length > 0) {
         if (answer.valid === 1) {
-            responseApi.statusCode = 404
-            responseApi.resp = false
-            responseApi.message = 'A \"pergunta\" já possui uma \"resposta\" verdadeira.'
-            return responseApi
+            //retornar erro
         }
     }
 
-    return responseApi
 }
 
 async function validateValidAnswerOnUpdating(question_id, id, answer) {
@@ -95,12 +76,9 @@ async function validateValidAnswerOnUpdating(question_id, id, answer) {
         const answerExist = await AnswerRepository.findByAnswerId(id)
 
         if (answer.valid === 1 && answerValid[0].id !== answerExist.id) {
-            responseApi.statusCode = 404
-            responseApi.resp = false
-            responseApi.message = 'A \"pergunta\" já possui uma \"resposta\" verdadeira.'
-            return responseApi
+            //retornar erro
         }
     }
 
-    return responseApi
+    
 }

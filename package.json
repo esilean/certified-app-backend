@@ -6,8 +6,9 @@
   "author": "esilean",
   "scripts": {
     "dev": "nodemon ./src/server.js",
-    "test": "cross-env NODE_ENV=test jest",
-    "start": "node ./src/server.js"
+    "start": "node ./src/server.js",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles",
+    "pretest": "cross-env NODE_ENV=test node ./src/database/seeders/index.js"
   },
   "dependencies": {
     "bcrypt": "^4.0.1",
@@ -26,6 +27,24 @@
     "uuid": "^7.0.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
-  }
+    "jest": "^25.4.0",
+    "nodemon": "^2.0.2",
+    "sequelize-mock": "^0.10.2",
+    "supertest": "^4.0.2"
+  },
+  "configurations": [
+    {
+      "name": "Debug Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/jest/bin/jest.js",
+        "--runInBand"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229
+    }
+  ]
 }

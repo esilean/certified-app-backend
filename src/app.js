@@ -6,6 +6,7 @@ const cors = require('cors')
 const http = require('http')
 const path = require("path");
 const { errors } = require('celebrate')
+const { handleError } = require('./api/error')
 
 require('./database')
 
@@ -24,5 +25,8 @@ require('./configs/routes')(app)
 require('./configs/routesProtected')(app)
 
 app.use(errors())
+app.use((err, req, res, next) => {
+    handleError(err, res);
+  });
 
 module.exports = server 

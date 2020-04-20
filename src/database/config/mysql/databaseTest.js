@@ -1,9 +1,10 @@
 module.exports = {
     host: '127.0.0.1',
     dialect: 'mysql',
-    database: 'certifiedce',
+    database: 'certifiedce-test',
     username: 'root',
     password: '123456',
+    logging: false,
     authentication: {
         type: 'default',
         options: {
@@ -12,7 +13,7 @@ module.exports = {
         }
     },
     options: {
-        database: 'certifiedce',
+        database: 'certifiedce-test',
         rowCollectionOnDone: true,
         useColumnNames: false,
         encrypt: false,

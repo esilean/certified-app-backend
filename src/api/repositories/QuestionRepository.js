@@ -1,6 +1,6 @@
 const sequelize = require('sequelize')
-const Questions = require('../models/Question')
-const Answers = require('../models/Answer')
+const Questions = require('../../database/models/Question')
+const Answers = require('../../database/models/Answer')
 
 module.exports = {
     async findAll() {
@@ -13,30 +13,6 @@ module.exports = {
             include: ['answers'],
             order: [['updated_at', 'desc']]
         })
-
-        //example query more complex
-        // const questions = await Questions.findAll({
-        //     attributes: [
-        //         'id', 'title', 'description', 'value', 'active', 'image_url', 'image_name', 'image_key', 'image_size', 'created_at', 'updated_at',
-        //         [sequelize.fn('COUNT', sequelize.col('customerAttemptQuestions.id')), 'no_question_ans']
-        //     ],
-        //     include: [
-        //         {
-        //             association: 'answers',
-        //             required: true,
-        //         },
-        //         {
-        //             association: 'customerAttemptQuestions',
-        //             required: false,
-        //             attributes: []
-        //         }
-        //     ],
-        //     group: ['question.id', 'answers.id'],
-        //     order: [['updated_at', 'desc']],
-        // })
-
-
-
 
         return questions
     },
@@ -52,7 +28,7 @@ module.exports = {
         return questions
     },
 
-    async findByQuestionId(question_id) {
+    async findByPk(question_id) {
         const questionResp = await Questions.findByPk(id = question_id, { include: ['answers'] });
 
         return questionResp
@@ -90,6 +66,7 @@ module.exports = {
         return questionResp
 
     },
+
     async updateAndCreateQuestions(transaction, id, question) {
 
         const { title, description, value, active, answers } = question
@@ -102,6 +79,7 @@ module.exports = {
         //exclui todas as respostas
         const response = await Answers.findAll({ raw: true, attributes: ['id'], where: { question_id: id } })
         const ids = response.map(resp => { return resp.id })
+
         await Answers.destroy({ where: { id: ids }, transaction, })
 
         //atualiza a pergunta e insere as respostas
@@ -116,18 +94,15 @@ module.exports = {
 
         await Answers.bulkCreate(answersWithQuestionId, { transaction })
 
-        let questionResp = await Questions.findOne({ where: { id } })
+        let questionResp = await Questions.findByPk(id, { include: ['answers'], transaction })
 
         return questionResp
 
     },
-
-
-
     async destroy(id) {
 
         await Questions.destroy({ where: { id } })
+    }
 
-    },
 }
 

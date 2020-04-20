@@ -1,5 +1,3 @@
-const responseApi = require('../utils/responseApi')
-
 const CustomerStageRepository = require('../repositories/CustomerStageRepository');
 const CustomerStageOneRepository = require('../repositories/CustomerStageOneRepository');
 const CustomerRepository = require('../repositories/CustomerRepository');
@@ -23,10 +21,8 @@ module.exports = {
 
     async create(customer_id, stage_id, custStage) {
 
-        // inicializar resposta de erro
-        responseApi.statusCode = 200
-        let customerStage = {}
 
+        let customerStage = {}
 
         //abre transacao
         const transaction = await trans.begin()
@@ -35,10 +31,7 @@ module.exports = {
             //verifica se o cliente existe
             const customerIdExist = await CustomerRepository.findByCustomerId(customer_id)
             if (!customerIdExist || customerIdExist === null) {
-                responseApi.statusCode = 404
-                responseApi.resp = false
-                responseApi.message = 'O \"cliente\" para esta \"tentativa\" não foi informado.'
-                return responseApi
+                //retornar erro
             }
 
             const respStageOpened = await validateStageOpened(customer_id, stage_id)
@@ -109,20 +102,11 @@ module.exports = {
     },
     async destroy(id) {
 
-        responseApi.resp = false
-        responseApi.message = 'Não será possível excluir esta \"tentativa\".'
-
         const custStageHasQuestion = await CustomerStageOneRepository.findByCustomerStageId(id)
 
         if (custStageHasQuestion && custStageHasQuestion.length === 0) {
-
             await CustomerStageRepository.destroy(id)
-            responseApi.resp = true
-            responseApi.message = 'Excluído com sucesso.'
-
         }
-
-        return responseApi
 
     },
 }
@@ -158,17 +142,13 @@ async function validateStageOpened(customer_id, stage_id) {
     // 1ª - se existir qualquer tentativa em aberto, bloqueia
     let custStageIsOpened = custStages.filter(x => x.date_end === null)
     if (custStageIsOpened && custStageIsOpened.length > 0) {
-        responseApi.statusCode = 400
-        responseApi.message = 'Não será possível abrir uma nova \"etapa\". Já existe etapa em andamento'
-        return responseApi
+        //retornar erro
     }
 
     //2ª - se existir etapa aprovada
     custStageIsOpened = custStages.filter(x => x.stage_id === stage_id && x.approved === true)
     if (custStageIsOpened && custStageIsOpened.length > 0) {
-        responseApi.statusCode = 400
-        responseApi.message = 'Não será possível abrir uma nova \"etapa\". Você já foi aprovado'
-        return responseApi
+        //retornar erro
     }
 
     //3ª - so pode criar etapa se a anterior foi aprovada
@@ -178,9 +158,7 @@ async function validateStageOpened(customer_id, stage_id) {
         custStageIsOpened = custStages.filter(x => x.stage_id === (stage_id - 1) && x.approved === true)
 
         if (!custStageIsOpened || custStageIsOpened.length <= 0) {
-            responseApi.statusCode = 400
-            responseApi.message = 'Não será possível abrir uma nova \"etapa\". Você não foi aprovado.'
-            return responseApi
+           //retornar erro
         }
     }
 

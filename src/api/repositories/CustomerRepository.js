@@ -1,4 +1,4 @@
-const Customers = require('../models/Customer');
+const Customers = require('../../database/models/Customer');
 const { v4: uuidv4 } = require('uuid')
 
 module.exports = {

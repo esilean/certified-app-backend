@@ -1,5 +1,5 @@
-const CustomerStages = require('../models/CustomerStage');
-const CustomerStageOne = require('../models/CustomerStageOne');
+const CustomerStages = require('../../database/models/CustomerStage');
+const CustomerStageOne = require('../../database/models/CustomerStageOne');
 
 
 module.exports = {

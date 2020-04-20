@@ -1,4 +1,4 @@
-const Stages = require('../models/Stage');
+const Stages = require('../../database/models/Stage');
 
 module.exports = {
     async index(request, response) {

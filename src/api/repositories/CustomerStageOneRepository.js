@@ -1,5 +1,5 @@
 const sequelize = require('sequelize')
-const CustomerStageOnes = require('../models/CustomerStageOne');
+const CustomerStageOnes = require('../../database/models/CustomerStageOne');
 
 
 module.exports = {

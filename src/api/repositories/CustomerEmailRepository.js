@@ -1,4 +1,4 @@
-const CustomerEmails = require('../models/CustomerEmail');
+const CustomerEmails = require('../../database/models/CustomerEmail');
 
 module.exports = {
 

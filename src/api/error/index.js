@@ -1,0 +1,23 @@
+class ErrorHandler extends Error {
+    constructor(statusCode, message) {
+        super()
+        this.statusCode = statusCode
+        this.message = message
+    }
+}
+
+const handleError = (err, res) => {
+    const { statusCode = 500, message } = err
+
+    const internalMessage = (process.env.ENVIRONMENT === 'dev') ? message : 'Internal Server Error. Contact me!'
+
+    res.status(statusCode).json({
+        statusCode,
+        message: internalMessage
+    })
+}
+
+module.exports = {
+    ErrorHandler,
+    handleError
+}

@@ -1,24 +1,23 @@
 const Sequelize = require('sequelize')
-const dbConfigProd = require('../configs/mysql/databaseProd')
-const dbConfigTest = require('../configs/mysql/databaseTest')
+const dbConfigProd = require('./config/mysql/databaseProd')
+const dbConfigTest = require('./config/mysql/databaseTest')
 
 const dbConfig = process.env.NODE_ENV === 'test' ? dbConfigTest : dbConfigProd
 
-const Users = require('../api/models/User')
+const Users = require('./models/User')
 
-const Questions = require('../api/models/Question')
-const Answers = require('../api/models/Answer')
+const Questions = require('./models/Question')
+const Answers = require('./models/Answer')
 
-const Customers = require('../api/models/Customer')
-const CustomerEmails = require('../api/models/CustomerEmail')
+const Customers = require('./models/Customer')
+const CustomerEmails = require('./models/CustomerEmail')
 
 
-const Stages = require('../api/models/Stage')
-const CustomerStages = require('../api/models/CustomerStage')
-const CustomerStageOnes = require('../api/models/CustomerStageOne')
+const Stages = require('./models/Stage')
+const CustomerStages = require('./models/CustomerStage')
+const CustomerStageOnes = require('./models/CustomerStageOne')
 
 const connection = new Sequelize(dbConfig)
-
 
 
 Users.init(connection)
