@@ -15,6 +15,9 @@ beforeAll(async () => {
         .post('/sec/login')
         .send(data)
 
+    console.log(123)
+    console.log(`TOKEN: ${response}`)
+
     const { name, email, token } = response.body
 
     auth = {
