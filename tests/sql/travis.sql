@@ -1,3 +1,5 @@
+USE certifiedbev_test;
+
 # Create Users
 CREATE TABLE IF NOT EXISTS `Users`
 (
