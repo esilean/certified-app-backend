@@ -1,8 +1,7 @@
-const connection = require('../../../src/database')
-const trans = require('../../../src/api/repositories/Transactions')
+const connection = require('../../../../src/database')
+const trans = require('../../../../src/api/repositories/Transactions')
 
-const QuestionRepository = require('../../../src/api/repositories/QuestionRepository')
-const AnswerRepository = require('../../../src/api/repositories/AnswerRepository')
+const QuestionRepository = require('../../../../src/api/repositories/QuestionRepository')
 
 beforeAll(() => {
 
@@ -13,34 +12,7 @@ afterAll(async () => {
 
 describe('Validating repositories', () => {
 
-    /*ANSWERS*/
-    /*ANSWERS*/
-    /*ANSWERS*/
-    describe('Answers repository', () => {
-
-        it('Should return all answers from one question', async () => {
-
-            const answers = await AnswerRepository.findAll(1)
-
-            expect(answers.length).toBeGreaterThan(0)
-        })
-
-        it('Should return one answer and which question it belongs', async () => {
-
-            const answer = await AnswerRepository.findByAnswerId(1)
-
-            expect(answer).toHaveProperty('id')
-            expect(answer).toHaveProperty('question')
-            expect(answer.question).toHaveProperty('id')
-        })
-    })
-
-
-
-    /*QUESTIONS*/
-    /*QUESTIONS*/
-    /*QUESTIONS*/
-    describe('Questions repository', () => {
+    describe('Question repository', () => {
 
         it('Should return all questions', async () => {
 

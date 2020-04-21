@@ -1,6 +1,6 @@
-const connection = require('../../../src/database')
+const connection = require('../../../../src/database')
 const request = require('supertest')
-const app = require('../../../src/app')
+const app = require('../../../../src/app')
 
 let auth = {}
 
@@ -30,7 +30,7 @@ afterAll(async () => {
 
 describe('Validating Endpoints', () => {
 
-    describe('Questions', () => {
+    describe('Question API', () => {
 
         it('should find all questions', async () => {
 

@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize')
-const dbConfigProd = require('./config/mysql/databaseProd')
-const dbConfigTest = require('./config/mysql/databaseTest')
+const env = process.env.NODE_ENV || 'development';
 
-const dbConfig = process.env.NODE_ENV === 'test' ? dbConfigTest : dbConfigProd
+
+const dbConfig = require(__dirname + '/config/config.json')[env];
 
 const Users = require('./models/User')
 
