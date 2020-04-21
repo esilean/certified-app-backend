@@ -8,7 +8,8 @@
     "dev": "cross-env NODE_ENV=dev nodemon ./src/server.js",
     "start": "cross-env NODE_ENV=production node ./src/server.js",
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles",
-    "pretest": "cross-env NODE_ENV=test node ./src/database/seeders/index.js"
+    "pretest": "cross-env NODE_ENV=test node ./src/database/seeders/index.js",
+    "coverage": "cross-env NODE_ENV=test yarn pretest && jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
     "bcrypt": "^4.0.1",
@@ -23,13 +24,14 @@
     "mysql2": "^2.1.0",
     "nodemailer": "^6.4.6",
     "sequelize": "^5.21.5",
-    "sequelize-cli": "^5.5.1",
     "sharp": "^0.25.2",
     "uuid": "^7.0.3"
   },
   "devDependencies": {
+    "coveralls": "^3.0.11",
     "jest": "^25.4.0",
     "nodemon": "^2.0.2",
+    "sequelize-cli": "^5.5.1",
     "supertest": "^4.0.2"
   },
   "configurations": [

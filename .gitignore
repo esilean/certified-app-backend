@@ -25,3 +25,5 @@ yarn-error.log*
 
 srcimages/uploads/*
 !srcimages/uploads/.gitkeep
+
+.coveralls.yml
