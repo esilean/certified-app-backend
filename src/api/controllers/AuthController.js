@@ -1,3 +1,4 @@
+require("dotenv").config();
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { v4: uuidv4 } = require('uuid')
@@ -29,7 +30,7 @@ const login = (request, response) => {
             console.log(`name: ${name}`)
             console.log(`pass: ${pass}`)
 
-            if (user !== null && bcrypt.compareSync(password, user.password)) {
+            if (user !== null && bcrypt.compare(password, user.password)) {
                 const token = jwt.sign({ id, name, email }, process.env.AUTH_SECRET, {
                     expiresIn: '1 day'
                 })
@@ -40,8 +41,6 @@ const login = (request, response) => {
             }
         }
 
-        console.log('USUARIO NAO ENCONTRADOOOOOOOOOO!')
-
         return response.status(400).send({
             statusCode: 400,
             error: "Bad Request",
@@ -50,7 +49,7 @@ const login = (request, response) => {
 
     }).catch(err => {
 
-        console.log('DEU ERRO PORRA!')
+        console.log(`DEU ERRO PORRA! ${err.message}`)
 
         return response.status(400).send({
             statusCode: 400,

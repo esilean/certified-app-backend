@@ -6,21 +6,27 @@ let auth = {}
 
 beforeAll(async () => {
 
-    const data = {
-        email: "le.bevilaqua@gmail.com",
-        password: "123",
-    }
+    try {
 
-    const response = await request(app)
-        .post('/sec/login')
-        .send(data)
+        const data = {
+            email: "le.bevilaqua@gmail.com",
+            password: "123",
+        }
 
-    const { name, email, token } = response.body
+        const response = await request(app)
+            .post('/sec/login')
+            .send(data)
 
-    auth = {
-        name,
-        email,
-        token
+        const { name, email, token } = response.body
+
+        auth = {
+            name,
+            email,
+            token
+        }
+    } catch (error) {
+        console.log(error)
+        console.log(error.message)
     }
 
 })
