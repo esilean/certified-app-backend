@@ -7,7 +7,7 @@ let auth = {}
 beforeAll(async () => {
 
     const data = {
-        email: "le.bevilaqua@gmail.com",
+        email: "le@gmail.com",
         password: "123",
     }
 

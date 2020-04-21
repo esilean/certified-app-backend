@@ -6,10 +6,12 @@ const Answers = require('../../database/models/Answer')
 module.exports = {
     async findAll() {
 
-        console.log(process.env.DB)
-
-
         const questions = await Questions.findAll({
+            attributes: {
+                include: [
+                    [sequelize.literal(`ifnull((select 0 from \`${process.env.DB}\`.customerStageOnes csq where csq.question_id = question.id limit 1), 1)`), 'canUpdate']
+                ]
+            },
             include: ['answers'],
             order: [['updated_at', 'desc']]
         })
