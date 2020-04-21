@@ -1,3 +1,6 @@
+CREATE DATABASE certifiedbev_test;
+CREATE USER 'dev'@'localhost' IDENTIFIED BY 'dev';
+GRANT ALL ON certifiedbev_test.* TO 'dev'@'localhost';
 USE certifiedbev_test;
 
 # Create Users
