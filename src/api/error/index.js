@@ -9,7 +9,7 @@ class ErrorHandler extends Error {
 const handleError = (err, res) => {
     const { statusCode = 500, message } = err
 
-    const internalMessage = (process.env.NODE_ENV !== 'production') ? message : 'Internal Server Error. Contact me!'
+    const internalMessage = (process.env.NODE_ENV !== 'production') ? message : message
 
     res.status(statusCode).json({
         statusCode,

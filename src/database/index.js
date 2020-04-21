@@ -15,8 +15,13 @@ const Stages = require('./models/Stage')
 const CustomerStages = require('./models/CustomerStage')
 const CustomerStageOnes = require('./models/CustomerStageOne')
 
-const connection = new Sequelize(dbConfig)
-
+let connection = null
+if (process.env.NODE_ENV === 'production') {
+    // the application is executed on Heroku ... use the mysql database
+    connection = new Sequelize(process.env.CLEARDB_DATABASE_URL, dbConfig)
+} else {
+    connection = new Sequelize(dbConfig)
+}
 
 Users.init(connection)
 
