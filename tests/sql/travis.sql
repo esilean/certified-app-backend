@@ -4,9 +4,6 @@ GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON *.* TO 'dev'@'localhost';
 CREATE DATABASE IF NOT EXISTS `certifiedbev_test` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `certifiedbev_test`;
 
--- **************************************
--- ************************************** `Users`
-
 CREATE TABLE IF NOT EXISTS `Users`
 (
  `id`          char(36) NOT NULL ,
@@ -18,9 +15,7 @@ CREATE TABLE IF NOT EXISTS `Users`
 
 PRIMARY KEY (`id`),
 UNIQUE KEY `Ind_email_72` (`email`)
-)
-
--- ************************************** `Questions`
+);
 
 CREATE TABLE IF NOT EXISTS `Questions`
 (
@@ -39,8 +34,6 @@ CREATE TABLE IF NOT EXISTS `Questions`
 PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1;
 
--- ************************************** `Answers`
-
 CREATE TABLE IF NOT EXISTS `Answers`
 (
  `id`          int NOT NULL AUTO_INCREMENT ,
@@ -55,8 +48,6 @@ PRIMARY KEY (`id`),
 KEY `fkIdx_21` (`question_id`),
 CONSTRAINT `FK_question_id_14` FOREIGN KEY `fkIdx_21` (`question_id`) REFERENCES `Questions` (`id`)
 ) AUTO_INCREMENT=1;
-
--- ************************************** `Customers`
 
 CREATE TABLE IF NOT EXISTS `Customers`
 (
@@ -73,8 +64,6 @@ PRIMARY KEY (`id`),
 UNIQUE KEY `Ind_95_token` (`access_token`),
 UNIQUE KEY `Ind_email_73` (`email`)
 );
-
--- ************************************** `CustomerEmails`
 
 CREATE TABLE IF NOT EXISTS `CustomerEmails`
 (
@@ -93,9 +82,6 @@ PRIMARY KEY (`id`),
 KEY `fkIdx_91` (`customer_id`),
 CONSTRAINT `FK_customer_email_id_91` FOREIGN KEY `fkIdx_91` (`customer_id`) REFERENCES `Customers` (`id`)
 );
-
-
--- ************************************** `Stages`
 
 CREATE TABLE IF NOT EXISTS `Stages`
 (
@@ -124,8 +110,6 @@ CREATE TABLE IF NOT EXISTS `Stages`
 PRIMARY KEY (`id`)
 );
 
--- ************************************** `CustomerStages`
-
 CREATE TABLE IF NOT EXISTS `CustomerStages`
 (
  `id`          int NOT NULL AUTO_INCREMENT ,
@@ -146,8 +130,6 @@ CONSTRAINT `FK_customer_id_34` FOREIGN KEY `fkIdx_30` (`customer_id`) REFERENCES
 KEY `fkIdx_33` (`stage_id`),
 CONSTRAINT `FK_stage_id_33` FOREIGN KEY `fkIdx_33` (`stage_id`) REFERENCES `Stages` (`id`)
 ) AUTO_INCREMENT=1;
-
--- ************************************** `CustomerStageOne`
 
 CREATE TABLE IF NOT EXISTS `CustomerStageOnes`
 (
