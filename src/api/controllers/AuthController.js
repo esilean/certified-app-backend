@@ -16,18 +16,31 @@ const login = (request, response) => {
             email,
         }
     }).then(data => {
+
+        console.log(`data: ${data}`)
+
         if (data) {
             const user = data.get()
-            const { id, name } = user
+            const { id, name, password: pass } = user
+
+            console.log(`email: ${email}`)
+            console.log(`password: ${password}`)
+            console.log(`id: ${id}`)
+            console.log(`name: ${name}`)
+            console.log(`pass: ${pass}`)
 
             if (user !== null && bcrypt.compareSync(password, user.password)) {
                 const token = jwt.sign({ id, name, email }, process.env.AUTH_SECRET, {
                     expiresIn: '1 day'
                 })
 
+                console.log('ENTROU AQUIIIIIIIIIII PORRA!')
+
                 return response.json({ name, email, token })
             }
         }
+
+        console.log('USUARIO NAO ENCONTRADOOOOOOOOOO!')
 
         return response.status(400).send({
             statusCode: 400,
@@ -36,6 +49,9 @@ const login = (request, response) => {
         })
 
     }).catch(err => {
+
+        console.log('DEU ERRO PORRA!')
+
         return response.status(400).send({
             statusCode: 400,
             error: "Bad Request",
