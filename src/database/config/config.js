@@ -19,7 +19,7 @@ module.exports =
     "database": "test",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "logging": false,
+    "logging": true,
     "define": {
       "timestamps": true,
       "underscored": true,
