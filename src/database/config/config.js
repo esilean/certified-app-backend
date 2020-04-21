@@ -4,7 +4,7 @@ module.exports =
   "development": {
     "username": "root",
     "password": "123456",
-    "database": "certifiedbev",
+    "database": "test",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "define": {
@@ -16,7 +16,7 @@ module.exports =
   "test": {
     "username": "root",
     "password": ((process.env.ENVIRONMENT === 'test') ? "" : "123456"),
-    "database": "certifiedbev_test",
+    "database": "test",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false,
@@ -29,7 +29,7 @@ module.exports =
   "production": {
     "username": "root",
     "password": null,
-    "database": "certified",
+    "database": "test",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false,
