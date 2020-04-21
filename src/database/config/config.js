@@ -1,3 +1,5 @@
+
+module.exports =
 {
   "development": {
     "username": "root",
@@ -13,7 +15,7 @@
   },
   "test": {
     "username": "root",
-    "password": "",
+    "password": ((process.env.ENVIRONMENT === 'test') ? "" : "123456"),
     "database": "certifiedbev_test",
     "host": "127.0.0.1",
     "dialect": "mysql",
@@ -22,7 +24,7 @@
       "timestamps": true,
       "underscored": true,
       "freezeTableName": true
-    }    
+    }
   },
   "production": {
     "username": "root",
@@ -35,6 +37,6 @@
       "timestamps": true,
       "underscored": true,
       "freezeTableName": true
-    }    
+    }
   }
 }
