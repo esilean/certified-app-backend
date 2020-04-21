@@ -17,7 +17,7 @@ PRIMARY KEY (`id`),
 UNIQUE KEY `Ind_email_72` (`email`)
 );
 
-insert into certifiedbev_test.users values ('x36592d6-a41d-4301-99a4-a87740afa2b7', 'Leandro', 'le@gmail.com', '$2b$10$grBLgJE0xqO6KvbG3ZqOAuxXWmmBam38K4FrQlomEr3XhwfsjCZqS', '2020-04-21 14:42:05', '2020-04-21 14:42:05')
+insert into certifiedbev_test.users values ('x36592d6-a41d-4301-99a4-a87740afa2b7', 'Leandro', 'le@gmail.com', '$2b$10$grBLgJE0xqO6KvbG3ZqOAuxXWmmBam38K4FrQlomEr3XhwfsjCZqS', '2020-04-21 14:42:05', '2020-04-21 14:42:05');
 
 # Create Questions
 CREATE TABLE IF NOT EXISTS `Questions`
