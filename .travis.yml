@@ -4,9 +4,9 @@ node_js:
 cache:
   directories:
     - 'node_modules'  
-install: npm install
+install: yarn install
 services:
   - mysql
-before_install:
+before_script:
   - mysql -u root --password="" < tests/sql/travis.sql
-script: npm test
+script: yarn test

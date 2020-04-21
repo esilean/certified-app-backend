@@ -1,3 +1,4 @@
+const connection = require('../../../../src/database')
 const Question = require('../../../../src/database/models/Question')
 
 beforeAll(() => {
