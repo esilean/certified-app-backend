@@ -1,17 +1,18 @@
 const QuestionImageRepository = require('../repositories/QuestionImageRepository')
 
+async function create(id, request) {
+
+    const questionImg = await QuestionImageRepository.create(id, request)
+    return questionImg
+}
+
+async function update(id) {
+
+    await QuestionImageRepository.update(id)
+
+}
+
 module.exports = {
-
-    async storeImg(id, request) {
-
-        const questionImg = await QuestionImageRepository.storeImg(id, request)
-        return questionImg
-    },
-    
-    async destroyImg(id, key) {
-
-        await QuestionImageRepository.destroyImg(id, key)
-        
-    },    
-
+    create,
+    update
 }

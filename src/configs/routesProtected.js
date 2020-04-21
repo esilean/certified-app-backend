@@ -83,7 +83,7 @@ module.exports = function (server) {
                 id: Joi.number().required().min(1),
             }),
         }),
-        CustomerStageController.result)    
+        CustomerStageController.result)
     routes.get('/customerstage/:customer_id',
         celebrate({
             [Segments.PARAMS]: Joi.object().keys({
@@ -207,8 +207,8 @@ module.exports = function (server) {
     /** QUESTIONS */
     /** QUESTIONS */
 
-    routes.post('/questions/img/:id', multer(multerConfig).single('file'), QuestionImageController.resizeImage, QuestionImageController.store)
-    routes.delete('/questions/img/:id', QuestionImageController.destroyImgFromStorage, QuestionImageController.destroy)
+    routes.post('/questions/img/:id', multer(multerConfig).single('file'), QuestionImageController.resizeImage, QuestionImageController.create)
+    routes.delete('/questions/img/:id', QuestionImageController.destroyImageFromStorage, QuestionImageController.destroy)
 
     routes.get('/questions', QuestionController.index)
     routes.get('/questions/:id',

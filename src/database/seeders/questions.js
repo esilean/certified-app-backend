@@ -31,7 +31,7 @@ async function generate() {
             ]
         },
         {
-            id: 3, title: 'Qual a cor da Esperança?', description: '', value: 1, image_url: '', image_name: '', image_key: '', image_size: 0, active: true,
+            id: 3, title: 'Qual a cor da Esperança?', description: '', value: 1, image_url: 'http://localhost:3000/files/27d09c10585fc6292ceeeb5b17fc28a7-G0702648.JPG', image_name: 'G0702648.JPG', image_key: '27d09c10585fc6292ceeeb5b17fc28a7-G0702648.JPG', image_size: 3410682, active: true,
             answers: [
                 {
                     id: 7, name: 'Azul', valid: true, active: true, question_id: 3,
