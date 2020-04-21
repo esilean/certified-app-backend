@@ -16,7 +16,7 @@ beforeAll(async () => {
         .send(data)
 
     console.log(123)
-    console.log(`TOKEN: ${response}`)
+    console.log(`TOKEN: ${response.body}`)
 
     const { name, email, token } = response.body
 
@@ -47,6 +47,9 @@ describe('Validating Endpoints', () => {
         })
 
         it('should find one question', async () => {
+
+
+            console.log(`AUTH-TOKEN: ${auth.token}`)
 
             const response = await request(app)
                 .get('/questions/1')
