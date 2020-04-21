@@ -1,12 +1,13 @@
 const Users = require('../models/User')
 const bcrypt = require('bcrypt')
+const { v4: uuidv4 } = require('uuid')
 
 
 async function generate() {
 
     await destroy()
 
-    const id = 'x37592d6-a41d-4301-99a4-a87740afa2b7'
+    const id = uuidv4()
     const name = 'Leandro'
     const email = 'le.bevilaqua@gmail.com'
     const password = '123'

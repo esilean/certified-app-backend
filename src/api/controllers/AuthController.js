@@ -31,6 +31,9 @@ const login = (request, response) => {
             console.log(`pass: ${pass}`)
 
             if (user !== null && bcrypt.compare(password, user.password)) {
+
+                console.log('PASSWORD OKKKKKKK!')
+
                 const token = jwt.sign({ id, name, email }, process.env.AUTH_SECRET, {
                     expiresIn: '1 day'
                 })
