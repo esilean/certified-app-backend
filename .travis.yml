@@ -12,5 +12,6 @@ before_install:
   - mysql -u root -e "CREATE USER 'dev'@'localhost' IDENTIFIED BY 'dev';"
   - mysql -u root -e "GRANT ALL ON certifiedbev_test.* TO 'dev'@'localhost';"
   - mysql -u root -e 'USE certifiedbev_test;'  
-  - mysql -u root -e < tests/sql/travis.sql
+  - mysql -u root --password="" < tests/sql/travis.sql
 script: yarn test
+
