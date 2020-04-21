@@ -9,7 +9,6 @@ const emailRegex = /\S+@\S+\.\S+/
 
 const login = (request, response) => {
 
-
     const { email = '', password = '' } = request.body
 
     User.findOne({
@@ -18,28 +17,15 @@ const login = (request, response) => {
         }
     }).then(data => {
 
-        console.log(`data: ${data}`)
-
         if (data) {
             const user = data.get()
-            const { id, name, password: pass } = user
-
-            console.log(`email: ${email}`)
-            console.log(`password: ${password}`)
-            console.log(`id: ${id}`)
-            console.log(`name: ${name}`)
-            console.log(`pass: ${pass}`)
+            const { id, name } = user
 
             if (user !== null && bcrypt.compare(password, user.password)) {
-
-                console.log('PASSWORD OKKKKKKK!')
 
                 const token = jwt.sign({ id, name, email }, process.env.AUTH_SECRET, {
                     expiresIn: '1 day'
                 })
-
-                console.log('ENTROU AQUIIIIIIIIIII PORRA!')
-
                 return response.json({ name, email, token })
             }
         }
@@ -51,9 +37,6 @@ const login = (request, response) => {
         })
 
     }).catch(err => {
-
-        console.log(`DEU ERRO PORRA! ${err.message}`)
-
         return response.status(400).send({
             statusCode: 400,
             error: "Bad Request",
@@ -135,7 +118,6 @@ const vtoken = (request, response) => {
         })
     })
 }
-
 
 module.exports = {
     login,

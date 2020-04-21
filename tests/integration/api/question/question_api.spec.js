@@ -7,9 +7,6 @@ let auth = {}
 beforeAll(async () => {
 
     try {
-
-        console.log('Iniciando.............................##############')
-
         const data = {
             email: "le.bevilaqua@gmail.com",
             password: "123",
@@ -28,7 +25,6 @@ beforeAll(async () => {
         }
 
     } catch (error) {
-        console.log(error)
         console.log(error.message)
     }
 
@@ -49,7 +45,7 @@ describe('Validating Endpoints', () => {
 
             expect(response.statusCode).toEqual(200)
             expect(response.body.length).toBeGreaterThan(0)
-           
+
         })
 
         it('should find one question', async () => {

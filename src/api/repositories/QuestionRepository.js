@@ -1,4 +1,3 @@
-require("dotenv").config();
 const sequelize = require('sequelize')
 const Questions = require('../../database/models/Question')
 const Answers = require('../../database/models/Answer')
@@ -9,7 +8,7 @@ module.exports = {
         const questions = await Questions.findAll({
             attributes: {
                 include: [
-                    [sequelize.literal(`ifnull((select 0 from \`${process.env.DB}\`.\`CustomerStageOnes\` csq where csq.question_id = \`Question\`.\`id\` limit 1), 1)`), 'canUpdate']
+                    [sequelize.literal(`ifnull((select 0 from \`CustomerStageOnes\` AS \`csq\` where \`csq\`.\`question_id\` = \`Question\`.\`id\` limit 1), 1)`), 'canUpdate']
                 ]
             },
             include: ['answers'],

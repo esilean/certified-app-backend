@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize')
-const env = process.env.NODE_ENV || 'development';
-
-
+const env = process.env.NODE_ENV || 'dev';
 const dbConfig = require(__dirname + '/config/config.js')[env];
 
 const Users = require('./models/User')

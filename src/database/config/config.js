@@ -1,10 +1,9 @@
-
 module.exports =
 {
-  "development": {
+  "dev": {
     "username": "root",
-    "password": "123456",
-    "database": "test",
+    "password": "",
+    "database": "certifiedbev",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "define": {
@@ -15,7 +14,7 @@ module.exports =
   },
   "test": {
     "username": "root",
-    "password": ((process.env.ENVIRONMENT === 'test') ? "" : "123456"),
+    "password": "",
     "database": "test",
     "host": "127.0.0.1",
     "dialect": "mysql",
@@ -28,8 +27,8 @@ module.exports =
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "test",
+    "password": "",
+    "database": "certifiedbev",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false,
