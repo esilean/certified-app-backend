@@ -1,40 +1,61 @@
 const AnswerService = require('../services/AnswerService');
+const { ErrorHandler } = require('../error')
 
-module.exports = {
-    async index(request, response) {
 
-        const { question_id } = request.params
+async function index(request, response) {
 
-        const answers = await AnswerService.findAll(question_id);
-        return response.json(answers);
-    },
+    const { question_id } = request.params
 
-    async store(request, response) {
+    const answers = await AnswerService.findAll(question_id);
+    return response.json(answers);
+}
 
-        const { question_id } = request.params
+async function create(request, response, next) {
+    const { question_id } = request.params
+
+    try {
 
         const answer = await AnswerService.create(question_id, request.body)
-
-        if (answer.hasOwnProperty('statusCode'))
-            return response.status(answer.statusCode).json(answer);
-
         return response.json(answer);
 
-    },
+    } catch (error) {
+        next(error)
+    }
 
-    async update(request, response) {
-        const { question_id, id } = request.params
+}
+
+async function update(request, response, next) {
+    const { question_id, id } = request.params
+
+    try {
 
         const answer = await AnswerService.update(question_id, id, request.body)
-
         return response.json(answer)
 
-    },
-    async destroy(request, response) {
-        const { id } = request.params
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+async function destroy(request, response, next) {
+    const { id } = request.params
+
+    try {
 
         const resp = await AnswerService.destroy(id)
+        if (resp)
+            throw new ErrorHandler(400, resp)
 
-        return response.status(200).json(resp)
-    },
+        return response.status(204).send()
+    } catch (error) {
+        next(error)
+    }
+}
+
+module.exports = {
+    index,
+    create,
+    update,
+    destroy,
 }

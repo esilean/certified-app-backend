@@ -9,4 +9,5 @@ before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
   - mysql -u root --password="" < tests/sql/travis.sql
 script: yarn test
+after_success: yarn coverage
 

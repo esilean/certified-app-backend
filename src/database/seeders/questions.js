@@ -12,9 +12,9 @@ async function generate() {
                 {
                     id: 1, name: 'Azul', valid: true, active: true, question_id: 1,
                 }, {
-                    id: 2, name: 'Amarelo', valid: true, active: true, question_id: 1,
+                    id: 2, name: 'Amarelo', valid: true, active: false, question_id: 1,
                 }, {
-                    id: 3, name: 'Verde', valid: true, active: true, question_id: 1,
+                    id: 3, name: 'Verde', valid: true, active: false, question_id: 1,
                 }
             ]
         },
@@ -24,9 +24,9 @@ async function generate() {
                 {
                     id: 4, name: 'Azul', valid: true, active: true, question_id: 2,
                 }, {
-                    id: 5, name: 'Amarelo', valid: true, active: true, question_id: 2,
+                    id: 5, name: 'Amarelo', valid: true, active: false, question_id: 2,
                 }, {
-                    id: 6, name: 'Verde', valid: true, active: true, question_id: 2,
+                    id: 6, name: 'Verde', valid: true, active: false, question_id: 2,
                 }
             ]
         },
@@ -36,9 +36,9 @@ async function generate() {
                 {
                     id: 7, name: 'Azul', valid: true, active: true, question_id: 3,
                 }, {
-                    id: 8, name: 'Amarelo', valid: true, active: true, question_id: 3,
+                    id: 8, name: 'Amarelo', valid: true, active: false, question_id: 3,
                 }, {
-                    id: 9, name: 'Verde', valid: true, active: true, question_id: 3,
+                    id: 9, name: 'Verde', valid: true, active: false, question_id: 3,
                 }
             ]
         },
@@ -48,9 +48,9 @@ async function generate() {
                 {
                     id: 10, name: 'Azul', valid: true, active: true, question_id: 4,
                 }, {
-                    id: 11, name: 'Amarelo', valid: true, active: true, question_id: 4,
+                    id: 11, name: 'Amarelo', valid: true, active: false, question_id: 4,
                 }, {
-                    id: 12, name: 'Verde', valid: true, active: true, question_id: 4,
+                    id: 12, name: 'Verde', valid: true, active: false, question_id: 4,
                 }
             ]
         },
@@ -60,9 +60,9 @@ async function generate() {
                 {
                     id: 13, name: 'Azul', valid: true, active: true, question_id: 5,
                 }, {
-                    id: 14, name: 'Amarelo', valid: true, active: true, question_id: 5,
+                    id: 14, name: 'Amarelo', valid: true, active: false, question_id: 5,
                 }, {
-                    id: 15, name: 'Verde', valid: true, active: true, question_id: 5,
+                    id: 15, name: 'Verde', valid: true, active: false, question_id: 5,
                 }
             ]
         },

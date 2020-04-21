@@ -180,7 +180,7 @@ module.exports = function (server) {
                 active: Joi.number().min(0).max(1),
             }).unknown()
         }),
-        AnswerController.store)
+        AnswerController.create)
     routes.put('/answers/:question_id/:id',
         celebrate({
             [Segments.PARAMS]: Joi.object().keys({
@@ -227,7 +227,7 @@ module.exports = function (server) {
                 answers: Joi.array().required().min(1),
             }).unknown()
         }),
-        QuestionController.store)
+        QuestionController.create)
     routes.put('/questions/:id',
         celebrate({
             [Segments.PARAMS]: Joi.object().keys({

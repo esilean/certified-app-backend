@@ -7,7 +7,7 @@ module.exports = {
         if (id) {
             let stage = await Stages.findByPk(id)
             if (stage === null)
-                return response.status(400).send()
+                return response.status(404).send()
 
             return response.json(stage)
         } else {
@@ -18,7 +18,6 @@ module.exports = {
     },
     async update(request, response) {
         const { id } = request.params
-        // const { name, title_ini, description_ini, video_url_ini, title_end, description_end, video_url_end, duration_min, question_qty } = request.body
 
         await Stages.update(request.body, {
             where: {
