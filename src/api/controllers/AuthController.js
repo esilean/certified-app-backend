@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { v4: uuidv4 } = require('uuid')
@@ -21,11 +21,11 @@ const login = (request, response) => {
             const user = data.get()
             const { id, name } = user
 
-            if (user !== null && bcrypt.compare(password, user.password)) {
-
+            if (user !== null && bcrypt.compareSync(password, user.password)) {
                 const token = jwt.sign({ id, name, email }, process.env.AUTH_SECRET, {
                     expiresIn: '1 day'
                 })
+
                 return response.json({ name, email, token })
             }
         }
@@ -119,8 +119,24 @@ const vtoken = (request, response) => {
     })
 }
 
+const destroy = (request, response) => {
+    const { id } = request.params
+    const token = request.body.token || ''
+
+    jwt.verify(token, process.env.AUTH_SECRET, function (err, decoded) {
+
+        if (!err) {
+            User.destroy({ where: { id } })
+        }
+
+        return response.status(204).send()
+    })
+
+}
+
 module.exports = {
     login,
     signup,
     vtoken,
+    destroy,
 }    

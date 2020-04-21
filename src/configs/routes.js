@@ -18,6 +18,7 @@ module.exports = function (server) {
     routes.post('/login', AuthController.login)
     routes.post('/signup', AuthController.signup)
     routes.post('/vtoken', AuthController.vtoken)
+    routes.delete('/:id', AuthController.destroy)
 
     const routesCli = Router()
     server.use('/cli', routesCli)
@@ -30,6 +31,6 @@ module.exports = function (server) {
 
     routesCli.post('/login', AuthCustomerController.login)
     routesCli.post('/signup', AuthCustomerController.signup)
-    routesCli.post('/vtoken', AuthCustomerController.vtoken)    
+    routesCli.post('/vtoken', AuthCustomerController.vtoken)
 
 }

@@ -1,3 +1,4 @@
+require("dotenv").config()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { v4: uuidv4 } = require('uuid')
