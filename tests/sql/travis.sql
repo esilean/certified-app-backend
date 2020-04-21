@@ -1,6 +1,4 @@
-CREATE DATABASE IF NOT EXISTS `certifiedbev_test` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `certifiedbev_test`;
-
+# Create Users
 CREATE TABLE IF NOT EXISTS `Users`
 (
  `id`          char(36) NOT NULL ,
@@ -14,6 +12,7 @@ PRIMARY KEY (`id`),
 UNIQUE KEY `Ind_email_72` (`email`)
 );
 
+# Create Questions
 CREATE TABLE IF NOT EXISTS `Questions`
 (
  `id`          int NOT NULL AUTO_INCREMENT ,
@@ -31,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `Questions`
 PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1;
 
+# Create Answers
 CREATE TABLE IF NOT EXISTS `Answers`
 (
  `id`          int NOT NULL AUTO_INCREMENT ,
@@ -46,6 +46,7 @@ KEY `fkIdx_21` (`question_id`),
 CONSTRAINT `FK_question_id_14` FOREIGN KEY `fkIdx_21` (`question_id`) REFERENCES `Questions` (`id`)
 ) AUTO_INCREMENT=1;
 
+# Create Custmers
 CREATE TABLE IF NOT EXISTS `Customers`
 (
  `id`           char(36) NOT NULL ,
@@ -62,6 +63,7 @@ UNIQUE KEY `Ind_95_token` (`access_token`),
 UNIQUE KEY `Ind_email_73` (`email`)
 );
 
+# Create Customeremails
 CREATE TABLE IF NOT EXISTS `CustomerEmails`
 (
  `id`          char(36) NOT NULL ,
@@ -80,6 +82,7 @@ KEY `fkIdx_91` (`customer_id`),
 CONSTRAINT `FK_customer_email_id_91` FOREIGN KEY `fkIdx_91` (`customer_id`) REFERENCES `Customers` (`id`)
 );
 
+# Create Stages
 CREATE TABLE IF NOT EXISTS `Stages`
 (
  `id`              int NOT NULL ,
@@ -107,6 +110,7 @@ CREATE TABLE IF NOT EXISTS `Stages`
 PRIMARY KEY (`id`)
 );
 
+# Create CustomerStages
 CREATE TABLE IF NOT EXISTS `CustomerStages`
 (
  `id`          int NOT NULL AUTO_INCREMENT ,
@@ -128,6 +132,7 @@ KEY `fkIdx_33` (`stage_id`),
 CONSTRAINT `FK_stage_id_33` FOREIGN KEY `fkIdx_33` (`stage_id`) REFERENCES `Stages` (`id`)
 ) AUTO_INCREMENT=1;
 
+# Create CustomerStageOnes
 CREATE TABLE IF NOT EXISTS `CustomerStageOnes`
 (
  `id`                int NOT NULL AUTO_INCREMENT ,
@@ -147,6 +152,8 @@ CONSTRAINT `FK_question_id_49` FOREIGN KEY `fkIdx_49` (`question_id`) REFERENCES
 KEY `fkIdx_52` (`answer_id`),
 CONSTRAINT `FK_answer_id_52` FOREIGN KEY `fkIdx_52` (`answer_id`) REFERENCES `Answers` (`id`)
 ) AUTO_INCREMENT=1;
+
+# End
 
 
 
